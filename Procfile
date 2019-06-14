@@ -1,1 +1,1 @@
-web: run cookbook.py
+web: cookbook.py
