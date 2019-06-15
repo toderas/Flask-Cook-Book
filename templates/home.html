@@ -13,25 +13,24 @@
 </head>
 <body>
  <nav class="navbar navbar-expand-lg navbar-light bg-info">
-  <a class="navbar-brand" href="#"><img class="logo-image" alt="chef logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTUhnKjobAOjmlVUzxfUoGj2VBu2mOXKPmnmZjkuTfKeNhWaxOfg"></img></a>
+  <a class="navbar-brand" href="{{url_for('recipes')}}"><img class="logo-image" alt="chef logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTUhnKjobAOjmlVUzxfUoGj2VBu2mOXKPmnmZjkuTfKeNhWaxOfg"></img></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{url_for('recipes')}}">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Categories
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Aperitifs</a>
-          <a class="dropdown-item" href="#">Starters</a>
+          <a class="dropdown-item" href="{{url_for('aperitif')}}">Aperitifs</a>
+          <a class="dropdown-item" href="{{url_for('starter')}}">Starters</a>
           <a class="dropdown-item" href="#">Intermediate</a>
           <a class="dropdown-item" href="#">Mains</a>
-          <a class="dropdown-item" href="#">Sorbet/Ice Cream</a>
           <a class="dropdown-item" href="#">Desserts</a>
         </div>
       </li>
@@ -39,7 +38,7 @@
         <a class="nav-link" href="#">Top 10 Receipes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Add Receipe</a>
+        <a class="nav-link" href="{{url_for('addreceipe')}}">Add Receipe</a>
       </li>
     </ul>
   </div>

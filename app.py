@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for, request
+from flask import Flask, render_template, redirect, request, url_for, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
@@ -27,10 +27,29 @@ def recipes():
 def aperitif():
     return render_template("aperitif.html",
     recipes=mongo.db.recipes.find({
-            "$and": [{"dish_category": 'Main'},
+            "$and": [{"dish_category": 'Aperitif'},
+                    {"dish_category": {'$exists': True}}]}))
+                    
+@app.route("/starter")
+def starter():
+    return render_template("starter.html",
+    recipes=mongo.db.recipes.find({
+            "$and": [{"dish_category": 'Starter'},
                     {"dish_category": {'$exists': True}}]}))
 
 
+
+@app.route("/addreceipe")
+def addreceipe():
+    return render_template("addreceipe.html")
+    
+
+@app.route('/add_recipe', methods=['POST'])
+def add_recipe():
+    recipes =  mongo.db.recipes
+    recipes.insert_one(request.form.to_dict())
+    return redirect(url_for('recipes'))
+    flash('Recipe has been added', 'success')
 
 
 if __name__ == '__main__':
