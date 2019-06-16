@@ -1,19 +1,29 @@
 {% extends 'home.html'%} {% block content %}
 <div class="container">
-    <!--{% for recipe in recipes %}-->
-<div class="col-12 col-sm-5 col-md-3 list-inline-item">
-  <div class="card mt-1 mb-3">
-    <img class="card-img-top receipe-picture" src="{{url_for('static', filename='receipe-pictures/aperol-spritz.jpg')}}" alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">{{recipe.dish_name}}</h5>
-      <p class="card-text">{{recipe.dish_author}}</p>
-      <p class="card-text"><small class="text-muted">{{recipe.dish_required_skill}}</small></p>
-      <p class="card-text">{{recipe.dish_prep_time}}</p>
-      <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">See Recipe</a>
+  <div class="col-12">
+    <div class="card mt-1 mb-3">
+      <img class="card-img-top receipe-picture" src="{{url_for('static', filename='receipe-pictures/aperol-spritz.jpg')}}" alt="Card image cap">
+      <div class="row">
+        <div class="card-body col-12 col-sm-4">
+          <span>Details:</span>
+          <div>
+            <h5 class="card-title"><i class="fas fa-tag"></i> {{recipe.dish_name}}</h5>
+          </div>
+          <div class="mb-2"><i class="fas fa-user-edit"></i> <strong>{{recipe.dish_author}}</strong></div>
+          <div class="mb-2"><i class="fas fa-utensils"></i> {{recipe.category_name}}</div>
+          <div class="mb-2"><i class="fas fa-user-cog"></i> {{recipe.dish_required_skill}}</div>
+          <div class="mb-2"><i class="fas fa-stopwatch"></i> {{recipe.dish_prep_time}}</div>
+        </div>
+        <div class="card-body col-12 col-sm-4">
+          <span><strong>Ingredients:</strong></span>
+         <div>{{recipe.dish_ingredients}}</div>
+        </div>
+        <div class="card-body col-12 col-sm-4">
+          <span><strong>Cooking Steps:</strong></span>
+          <div>{{recipe.dish_preparation_steps}}</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
- <!--{% endfor %}-->
-</div>
-
 {% endblock %}

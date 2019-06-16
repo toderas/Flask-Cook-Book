@@ -2,6 +2,6 @@
     width: 50px;
     height: 50px;
 }
-.receipe-card {
-    height: 300px;
+.list-inline-item:not(:last-child) {
+    margin: 0 !important;
 }
