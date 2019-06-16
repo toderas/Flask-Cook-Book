@@ -29,16 +29,16 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="{{url_for('aperitif')}}">Aperitifs</a>
           <a class="dropdown-item" href="{{url_for('starter')}}">Starters</a>
-          <a class="dropdown-item" href="#">Intermediate</a>
-          <a class="dropdown-item" href="#">Mains</a>
-          <a class="dropdown-item" href="#">Desserts</a>
+          <a class="dropdown-item" href="{{url_for('intermediate')}}">Intermediate</a>
+          <a class="dropdown-item" href="{{url_for('main')}}">Mains</a>
+          <a class="dropdown-item" href="{{url_for('dessert')}}">Desserts</a>
         </div>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Top 10 Receipes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{url_for('addreceipe')}}">Add Receipe</a>
+        <a class="nav-link" href="{{url_for('addrecipe')}}">Add Receipe</a>
       </li>
     </ul>
   </div>

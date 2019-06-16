@@ -9,6 +9,7 @@
       <p class="card-text">{{recipe.dish_author}}</p>
       <p class="card-text"><small class="text-muted">{{recipe.dish_required_skill}}</small></p>
       <p class="card-text">{{recipe.dish_prep_time}}</p>
+      <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">See Recipe</a>
     </div>
   </div>
 </div>
