@@ -5,3 +5,7 @@
 .list-inline-item:not(:last-child) {
     margin: 0 !important;
 }
+.btn-group dropleft {
+    text-align: right;
+    bottom: -30px;
+}

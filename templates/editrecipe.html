@@ -1,0 +1,71 @@
+{% extends 'home.html'%} {% block content %}
+
+<div class="container">
+  <form action={{url_for( 'update_recipe', recipe_id=recipe._id)}} method="POST">
+    {% for recipe in recipes %}
+    <div class="row">
+      <div class="col-12 col-md-4">
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Name</label>
+          <input type="text" value="{{recipe.dish_name}}" class="form-control" id="dish_name" name="dish_name" placeholder="Type Name">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Author</label>
+          <input type="text" value="{{recipe.dish_author}}" class="form-control" id="dish_author" name="dish_author" placeholder="Type Name">
+        </div>
+        <div class="form-group">
+          <label for="category_name">Category</label>
+          <select class="form-control" id="category_name" name="category_name">
+            
+             {% for course in categories %}
+                      <option value="{{course.category_name}}" selected>{{course.category_name}}</option>
+                  {% endfor %}
+                  <option disabled selected name="category_name" value="{{recipe.category_name}}">{{recipe.category_name}}</option>
+             
+    </select>
+        </div>
+        <div class="form-group">
+          <label for="dish_required_skill">Difficulty Level</label>
+          <select class="form-control" id="dish_required_skill" name="dish_required_skill">
+             
+      {% for required in skills %}
+                      <option value="{{required.skill_name}}">{{required.skill_name}}</option>
+                  {% endfor %}
+                  <option selected disabled value="{{recipe.skill_name}}">{{recipe.dish_required_skill}}</option>
+    </select>
+        </div>
+
+        <div class="form-group">
+          <label for="dish_prep_time">Preparation Time</label>
+
+          <textarea class="form-control" type="text" value="{{recipe.dish_prep_time}}" name="dish_prep_time" id="dish_prep_time" rows="3">{{recipe.dish_prep_time}}</textarea>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Cuisine</label>
+          <textarea name="dish_origin_cuisine" value="{{recipe.dish_origin_cuisine}}" class="form-control" id="exampleFormControlTextarea1" rows="3">{{recipe.dish_origin_cuisine}}</textarea>
+        </div>
+
+      </div>
+      <div class="col-md-6">
+        <label for="exampleFormControlTextarea1">Add Photo</label>
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="customFile">
+          <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Ingredients</label>
+          <textarea class="form-control" value="{{recipe.dish_ingredients}}" name="dish_ingredients" id="exampleFormControlTextarea1" rows="7">{{recipe.dish_ingredients}}</textarea>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Recommended Steps</label>
+          <textarea class="form-control" value="{{recipe.dish_preparation_steps}}" name="dish_preparation_steps" id="exampleFormControlTextarea1" rows="7">{{recipe.dish_preparation_steps}}</textarea>
+        </div>
+        <button type="submit" class="btn btn-sm btn-success">Update Recipe</button>
+      </div>
+    </div>
+    {% endfor %}
+  </form>
+
+</div>
+
+{% endblock %}
