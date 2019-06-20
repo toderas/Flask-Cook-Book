@@ -14,12 +14,12 @@
         <div class="form-group">
           <label for="exampleFormControlSelect1">Category</label>
           <select class="form-control" id="categories" name="category_name">
-      <option value="" selected disabled>Select</option>
-       {% for course in categories %}
-                      <option value="{{course.category_name}}">{{course.category_name}}</option>
-                  {% endfor %}
-    </select>
-        </div>
+            <option value="" selected disabled>Select</option>
+            {% for course in categories %}
+              <option value="{{course.category_name}}">{{course.category_name}}</option>
+            {% endfor %}
+          </select>
+            </div>
         <div class="form-group">
           <label for="dish_required_skill">Difficulty Level</label>
           <select class="form-control" id="dish_required_skill" name="dish_required_skill">
@@ -60,7 +60,6 @@
       </div>
     </div>
   </form>
-
 </div>
 
 {% endblock %}
