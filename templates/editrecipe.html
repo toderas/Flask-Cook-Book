@@ -1,8 +1,7 @@
 {% extends 'home.html'%} {% block content %}
-
 <div class="container">
   <form action={{url_for( 'update_recipe', recipe_id=recipe._id)}} method="POST">
-    {% for recipe in recipes %}
+
     <div class="row">
       <div class="col-12 col-md-4">
         <div class="form-group">
@@ -16,13 +15,13 @@
         <div class="form-group">
           <label for="category_name">Category</label>
           <select class="form-control" id="category_name" name="category_name">
-            
+          
              {% for course in categories %}
-                      <option value="{{course.category_name}}" selected>{{course.category_name}}</option>
+                     <option value="{{course.category_name}}">{{course.category_name}}</option>
+                      
                   {% endfor %}
-                  <option disabled selected name="category_name" value="{{recipe.category_name}}">{{recipe.category_name}}</option>
-             
-    </select>
+             <option selected value="{{recipe.category_name}}" selected>{{recipe.category_name}}</option>
+</select>
         </div>
         <div class="form-group">
           <label for="dish_required_skill">Difficulty Level</label>
@@ -31,10 +30,9 @@
       {% for required in skills %}
                       <option value="{{required.skill_name}}">{{required.skill_name}}</option>
                   {% endfor %}
-                  <option selected disabled value="{{recipe.skill_name}}">{{recipe.dish_required_skill}}</option>
+                  <option selected  value="{{recipe.dish_required_skill}}"selected>{{recipe.dish_required_skill}}</option>
     </select>
         </div>
-
         <div class="form-group">
           <label for="dish_prep_time">Preparation Time</label>
 
@@ -49,8 +47,10 @@
       <div class="col-md-6">
         <label for="exampleFormControlTextarea1">Add Photo</label>
         <div class="custom-file">
-          <input type="file" class="custom-file-input" id="customFile">
-          <label class="custom-file-label" for="customFile">Choose file</label>
+         <form action="{{url_for('upload')}}" method="POST" enctype=multipart/form-data>
+          <p><input type=file name=file id="upload">
+            <input type=submit value=Upload>
+        </form>
         </div>
         <div class="form-group">
           <label for="exampleFormControlTextarea1">Ingredients</label>
@@ -63,9 +63,6 @@
         <button type="submit" class="btn btn-sm btn-success">Update Recipe</button>
       </div>
     </div>
-    {% endfor %}
   </form>
-
 </div>
-
 {% endblock %}

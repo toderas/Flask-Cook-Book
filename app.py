@@ -4,8 +4,8 @@ from flask import Flask, render_template, redirect, request, url_for, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
+app = Flask(__name__)
 
-app=Flask(__name__)
 
 app.config["MONGO_DBNAME"] = 'cook-book'
 app.config["MONGO_URI"] = 'mongodb+srv://tode:1Martie1998@myfirstcluster-dxyoc.mongodb.net/cook-book?retryWrites=true&w=majority'
@@ -14,9 +14,7 @@ mongo = PyMongo(app)
 
 
 @app.route("/")
-#@app.route("/home")
-#def home():
-   # return render_template("home.html")
+
     
 @app.route("/recipes")
 def recipes():
@@ -72,6 +70,7 @@ def addrecipe():
 def insert_recipe():
     recipes =  mongo.db.recipes
     recipes.insert_one(request.form.to_dict())
+    upload()
     return redirect(url_for('recipes'))
     
     
@@ -117,11 +116,11 @@ def update_recipe(recipe_id):
 def delete_recipe(recipe_id):
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     return redirect(url_for('recipes'))
-
-
+    
+    
 
 
 
 if __name__ == '__main__':
-     app.run(host='0.0.0.0', port=5000, debug=True)
+     app.run(host='0.0.0.0', port=8080, debug=True)
 
