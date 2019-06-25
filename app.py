@@ -2,8 +2,14 @@ import os
 from flask import Flask, render_template, redirect, request, url_for, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+from werkzeug import secure_filename
+
+
+UPLOAD_FOLDER = './/static/receipe-pictures/'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 app.config["MONGO_DBNAME"] = 'cook-book'
@@ -69,7 +75,7 @@ def addrecipe():
 def insert_recipe():
     recipes =  mongo.db.recipes
     recipes.insert_one(request.form.to_dict())
-    upload()
+    upload_file()
     return redirect(url_for('recipes'))
     
     
@@ -117,11 +123,39 @@ def delete_recipe(recipe_id):
     return redirect(url_for('recipes'))
     
     
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['dish_photo']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+           
+           
+     
+     
 
 
 
 if __name__ == '__main__':
-     app.run(host=os.environ.get('IP'),
-     port=int(os.environ.get('PORT')),
-     debug=True)
+     app.run(host='0.0.0.0', port=8080, debug=True)
 
+
+
+
+
+
+
+
+
+
+# For Heroku Deployment
+
+#if __name__ == '__main__':
+ #    app.run(host=os.environ.get('IP'),
+  #   port=int(os.environ.get('PORT')),
+   #  debug=True)
