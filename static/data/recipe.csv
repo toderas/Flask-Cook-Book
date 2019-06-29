@@ -1,0 +1,12 @@
+dish_name,dish_author,dish_prep_time,dish_origin_cuisine,dish_upvotes,category_name,country,dish_views,dish_required_skill
+Aperol Spritz,Test Chef,15mn,Test Cuisine ,,Starter,,,Advanced Beginner
+Chateaubriand with béarnaise sauce and fries,Same Crackhead Chef,3 months,Australia,,Main,,5,Advanced
+Franciacorta Risotto with Pears and Crisped Speck,Another Crackhead Chef,4 weeks,French,,Starter,,1,Medium
+random,el random,5mn,local,,Starter,,,Advanced Beginner
+random,Le Chef,6mn,unknown,,Starter,,1,Competent
+random,el Chef,15mn,bla bla,61,Starter,,28,Proficient
+Le Recipe,Le Chef,15mn,local,,Intermediate,,1,Proficient
+This is a Test MAin,Le Chef,25MN,spanish,,Main,,,Expert
+Chef's favourite,Chef,15mn,italian,,Main,,1,Expert
+some random,el chef,30-35mn,blank,,Dessert,,,Proficient
+Le Recipe,el Chef,50mn,blank,,Main,,,Competent
