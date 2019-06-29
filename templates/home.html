@@ -37,10 +37,13 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"> <i class="fas fa-medal"></i> Top 10 Receipes</a>
+          <a class="nav-link" href="{{url_for('top_ten')}}"> <i class="fas fa-medal"></i> Top 10 Receipes</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('addrecipe')}}"><i class="fas fa-plus"></i> Add Receipe</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('show_chart')}}"><i class="fas fa-plus"></i>Statistics</a>
         </li>
       </ul>
     </div>
