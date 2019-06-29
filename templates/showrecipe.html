@@ -3,6 +3,9 @@
   <div class="col-12">
     <div class="card mt-1 mb-3">
       <img class="card-img-top receipe-picture" src="{{url_for('static', filename='receipe-pictures/aperol-spritz.jpg')}}" alt="Card image cap">
+      <form class="btn" action="{{ url_for('upvote', recipe_id=recipe._id)}}" method="POST">
+                        <button class="btn-small" type="submit">{{recipe.dish_upvotes}}</button></form>
+
       <div class="row">
 
 
