@@ -1,12 +1,15 @@
 import os
+from helpers import *
 from flask import Flask, render_template, redirect, request, url_for, flash
-from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo, pymongo
 from bson.objectid import ObjectId
 from werkzeug import secure_filename
+from flask_paginate import Pagination
 
+data_file = "static/data/recipe.csv"
 
 UPLOAD_FOLDER = './/static/receipe-pictures/'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -23,8 +26,19 @@ mongo = PyMongo(app)
     
 @app.route("/recipes")
 def recipes():
-    return render_template("recipes.html",
-             recipes=mongo.db.recipes.find())
+    page = get_page()
+    recipes = mongo.db.recipes.find().sort('upvotes', pymongo.DESCENDING)
+    pagination = Pagination(page=page, total=recipes.count(),
+                            record_name='recipes')
+    recipe_list = paginate_list(recipes, page, 6)
+    return render_template("recipes.html", recipes=recipe_list,
+                           pagination=pagination)
+                           
+@app.route("/top_ten")
+def top_ten():
+     recipes = mongo.db.recipes.find().sort('upvotes', pymongo.DESCENDING).limit(10)
+     return render_template("recipes.html", recipes=recipes)
+                          
              
              
 @app.route("/aperitif")
@@ -73,14 +87,16 @@ def addrecipe():
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
+    upload_file()
     recipes =  mongo.db.recipes
     recipes.insert_one(request.form.to_dict())
-    upload_file()
     return redirect(url_for('recipes'))
     
     
 @app.route('/show_recipe/<recipe_id>')
 def show_recipe(recipe_id):
+    mongo.db.recipes.update_one({"_id": ObjectId(recipe_id)}, {"$inc":
+                                                               {'dish_views': 1}})
     the_recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     all_recipes =  mongo.db.recipes.find(the_recipe)
     return render_template('showrecipe.html', recipe=the_recipe,
@@ -134,10 +150,26 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            
+
+@app.route('/show_chart')
+def show_chart():
+    cursor = mongo.db.recipes.find({}, {'_id': 0, 
+                                        "dish_name": 1, "dish_author": 1,
+                                        "dish_prep_time": 1, "dish_origin_cuisine": 1,
+                                        "dish_upvotes": 1, "category_name": 1,
+                                        "country": 1, "dish_views": 1, "dish_required_skill": 1})
+    total_recipes = cursor.count()
+    write_to_csv(data_file, cursor)
+    return render_template("charts.html", total_recipes=total_recipes)
            
            
      
-     
+@app.route('/upvote/<recipe_id>', methods=["POST"])
+def upvote(recipe_id):
+    mongo.db.recipes.update_one({"_id": ObjectId(recipe_id)}, {"$inc":
+                                                               {'dish_upvotes': 1}})
+    return redirect(url_for('show_recipe', recipe_id=recipe_id))
 
 
 
