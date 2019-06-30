@@ -5,6 +5,7 @@ from flask_pymongo import PyMongo, pymongo
 from bson.objectid import ObjectId
 from werkzeug import secure_filename
 from flask_paginate import Pagination
+import pprint;
 
 data_file = "static/data/recipe.csv"
 
@@ -27,7 +28,7 @@ mongo = PyMongo(app)
 @app.route("/recipes")
 def recipes():
     page = get_page()
-    recipes = mongo.db.recipes.find().sort('upvotes', pymongo.DESCENDING)
+    recipes = mongo.db.recipes.find().sort('dish_upvotes', pymongo.DESCENDING)
     pagination = Pagination(page=page, total=recipes.count(),
                             record_name='recipes')
     recipe_list = paginate_list(recipes, page, 6)
@@ -36,8 +37,8 @@ def recipes():
                            
 @app.route("/top_ten")
 def top_ten():
-     recipes = mongo.db.recipes.find().sort('upvotes', pymongo.DESCENDING).limit(10)
-     return render_template("recipes.html", recipes=recipes)
+    recipes = mongo.db.recipes.find().sort('dish_upvotes', pymongo.DESCENDING).limit(10)
+    return render_template("top-ten.html", recipes=recipes)
                           
              
              
@@ -88,8 +89,13 @@ def addrecipe():
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     upload_file()
+    value = {
+            
+        'dish_photo':request.form.get('dish_photo')
+    }
     recipes =  mongo.db.recipes
     recipes.insert_one(request.form.to_dict())
+    pprint.pprint(value)
     return redirect(url_for('recipes'))
     
     
@@ -119,17 +125,12 @@ def edit_recipe(recipe_id):
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
 def update_recipe(recipe_id):
     recipes = mongo.db.recipes
-    recipes.update( {'_id': ObjectId(recipe_id)},
-    {
-        'dish_name':request.form.get('dish_name'),
-        'dish_author':request.form.get('dish_author'),
-        'dish_required_skill': request.form.get('dish_required_skill'),
-        'dish_prep_time': request.form.get('dish_prep_time'),
-        'dish_origin_cuisine':request.form.get('dish_origin_cuisine'),
-        'dish_ingredients':request.form.get('dish_ingredients'),
-        'dish_preparation_steps':request.form.get('dish_preparation_steps'),
-        'category_name':request.form.get('category_name'),
-    })
+    value = {
+            
+        'dish_photo':request.form.get('dish_photo')
+    }
+    recipes.update( {'_id': ObjectId(recipe_id)},value)
+   # pprint.pprint(value)
     return redirect(url_for('recipes'))
     
 
@@ -147,9 +148,12 @@ def allowed_file(filename):
 def upload_file():
     if request.method == 'POST':
         file = request.files['dish_photo']
+        pprint.pprint(file)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            pprint.pprint(filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return filename
             
 
 @app.route('/show_chart')
@@ -161,7 +165,7 @@ def show_chart():
                                         "country": 1, "dish_views": 1, "dish_required_skill": 1})
     total_recipes = cursor.count()
     write_to_csv(data_file, cursor)
-    return render_template("charts.html", total_recipes=total_recipes)
+    return render_template("charts.html", total_recipes=total_recipes, )
            
            
      
@@ -173,8 +177,8 @@ def upvote(recipe_id):
 
 
 
-#if __name__ == '__main__':
-    # app.run(host='0.0.0.0', port=8080, debug=True)
+if __name__ == '__main__':
+     app.run(host='0.0.0.0', port=8080, debug=True)
 
 
 
@@ -187,7 +191,7 @@ def upvote(recipe_id):
 
 # For Heroku Deployment
 
-if __name__ == '__main__':
-     app.run(host=os.environ.get('IP'),
-             port=int(os.environ.get('PORT')),
-             debug=True)
+#if __name__ == '__main__':
+  #   app.run(host=os.environ.get('IP'),
+     #        port=int(os.environ.get('PORT')),
+     #        debug=True)
