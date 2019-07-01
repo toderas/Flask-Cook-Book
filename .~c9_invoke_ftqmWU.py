@@ -19,7 +19,10 @@ def donut_pie_chart():
     
     df =  pd.read_csv('static/data/recipe.csv')
     df = df.groupby('category_name')["dish_upvotes"].sum()
+    df
     categories=df.groupby('category_name')
+    
+   # views_data = df["category_name"]
     pie_color = ("red", "green", "orange", "cyan", "blue")
     fig, ax = plt.subplots()
     ax.pie(df, labels=categories,colors = pie_color, autopct='%1.1f%%', startangle=90, pctdistance=0.85)

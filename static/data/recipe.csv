@@ -1,13 +1,12 @@
-dish_name,dish_author,dish_prep_time,dish_origin_cuisine,dish_upvotes,category_name,country,dish_views,dish_required_skill
-Aperol Spritz,Test Chef,15mn,Test Cuisine ,15,Starter,,30,Advanced Beginner
-Chateaubriand with béarnaise sauce and fries,Same Crackhead Chef,3 months,Australia,55,Main,,5,Advanced
-Franciacorta Risotto with Pears and Crisped Speck,Another Crackhead Chef,4 weeks,French,90,Starter,,28,Medium
-random,el random,5mn,local,30,Starter,,15,Advanced Beginner
-random,Le Chef,6mn,unknown,25,Starter,,1,Competent
-random,el Chef,15mn,bla bla,45,Starter,,50,Proficient
-Le Recipe,Le Chef,15mn,local,65,Intermediate,,1,Proficient
-This is a Test MAin,Le Chef,25MN,spanish,12,Main,,30,Expert
-Chef's favourite,Chef,15mn,italian,22,Main,,2,Expert
-some random,el chef,30-35mn,blank,55,Dessert,,25,Proficient
-Le Recipe,el Chef,50mn,blank,60,Main,,20,Competent
-
+dish_name,dish_author,dish_views,dish_upvotes,dish_prep_time,dish_required_skill,dish_origin_cuisine,category_name
+Aperol Spritz,Test Chef,15,25,15mn,Advanced Beginner,Test Cuisine ,Starter
+Chateaubriand with béarnaise sauce and fries,Same Crackhead Chef,5,35,3 months,Advanced,Australia,Main
+Franciacorta Risotto with Pears and Crisped Speck,Another Crackhead Chef,25,54,4 weeks,Medium,French,Starter
+random,el random,45,65,5mn,Advanced Beginner,local,Starter
+random,Le Chef,1,8,6mn,Competent,unknown,Starter
+random,el Chef,12,21,15mn,Proficient,bla bla,Starter
+Le Recipe,Le Chef,1,12,15mn,Proficient,local,Intermediate
+This is a Test MAin,Le Chef,12,21,25MN,Expert,spanish,Main
+Chef's favourite,Chef,2,12,15mn,Expert,italian,Main
+some random,el chef,25,52,30-35mn,Proficient,blank,Dessert
+Le Recipe,el Chef,24,42,50mn,Competent,blank,Main

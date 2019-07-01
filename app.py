@@ -159,10 +159,10 @@ def upload_file():
 @app.route('/show_chart')
 def show_chart():
     cursor = mongo.db.recipes.find({}, {'_id': 0, 
-                                        "dish_name": 1, "dish_author": 1,
-                                        "dish_prep_time": 1, "dish_origin_cuisine": 1,
-                                        "dish_upvotes": 1, "category_name": 1,
-                                        "country": 1, "dish_views": 1, "dish_required_skill": 1})
+                                        "dish_name": 1, "dish_author": 1,"dish_views": 1,"dish_upvotes": 1,"dish_prep_time": 1,"dish_required_skill": 1,
+                                         "dish_origin_cuisine": 1, "category_name": 1,
+                                         })
+                                        
     total_recipes = cursor.count()
     write_to_csv(data_file, cursor)
     return render_template("charts.html", total_recipes=total_recipes, )

@@ -20,7 +20,8 @@ def paginate_list(query, page_number, per_page):
 # writes data on csv file 
 def write_to_csv(data_file, cursor):
     with open(data_file, "w+") as outfile:
-        fields = ["dish_name", "dish_author", "dish_prep_time", "dish_origin_cuisine","dish_upvotes", "category_name", "country", "dish_views", "dish_required_skill"]
+        fields = [ "dish_name", "dish_author","dish_views","dish_upvotes","dish_prep_time","dish_required_skill", "dish_origin_cuisine", "category_name"]
+                                        
         writer = csv.DictWriter(outfile, fieldnames=fields)
         writer.writeheader()
         for x in cursor:
