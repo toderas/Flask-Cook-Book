@@ -17,8 +17,11 @@ app = Flask(__name__)
 @app.route('/donut_pie_chart/')
 def donut_pie_chart():
     df =  pd.read_csv('static/data/recipe.csv')
-    upvotes_data = df["dish_upvotes"]
-    views_data = df["dish_name"]
+    df['Total'] = df.groupby(['category_name'])['dish_upvotes'].transform('sum')
+    df.drop_duplicates()
+    upvotes_data = df["Total"]
+    views_data = df["category_name"]
+   
     pie_color = ("red", "green", "orange", "cyan", "blue")
     fig, ax = plt.subplots()
     ax.pie(upvotes_data, labels=views_data,colors = pie_color, autopct='%1.1f%%', startangle=90, pctdistance=0.85)
@@ -26,7 +29,7 @@ def donut_pie_chart():
     fig = plt.gcf()
     fig.gca().add_artist(inner_circle)
     ax.axis('equal')  
-    ax.set_title("Views per Skills\n",fontsize=24)
+    ax.set_title("Upvotes per Category\n",fontsize=24)
     plt.tight_layout()
     canvas = FigureCanvas(fig)
     img = BytesIO()
