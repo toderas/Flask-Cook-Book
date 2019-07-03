@@ -8,22 +8,23 @@ import matplotlib.pyplot as plt
 import pandas as pd
 plt.style.use('ggplot')
 import csv
- 
+from collections import OrderedDict
 
  
 app = Flask(__name__)
 
  #dish_upvotes,dish_views
-@app.route('/donut_pie_chart/')
-def donut_pie_chart():
-    
+@app.route('/donut_pie_chart_likes/')
+def donut_pie_chart_likes():
     df =  pd.read_csv('static/data/recipe.csv')
-    df = df.groupby('category_name')["dish_upvotes"].sum()
-    categories=df.groupby('category_name')
+    ds = df.groupby("category_name")['dish_upvotes'].sum()
+    #categories=df.groupby("category_name")['category_name'].sum()
+    categories = ["Aperitif","Dessert","Intermediate","Main","Starter"]
+    
     pie_color = ("red", "green", "orange", "cyan", "blue")
     fig, ax = plt.subplots()
-    ax.pie(df, labels=categories,colors = pie_color, autopct='%1.1f%%', startangle=90, pctdistance=0.85)
-    inner_circle = plt.Circle((0,0),0.70,fc='white')
+    ax.pie(ds, labels=categories,colors = pie_color, autopct='%1.1f%%', startangle=90, pctdistance=0.55)
+    inner_circle = plt.Circle((0,0),0)
     fig = plt.gcf()
     fig.gca().add_artist(inner_circle)
     ax.axis('equal')  
@@ -34,6 +35,31 @@ def donut_pie_chart():
     fig.savefig(img)
     img.seek(0)
     return send_file(img, mimetype='image/png')
+    
+    
+    
+@app.route('/donut_pie_chart_views/')
+def donut_pie_chart_views():
+    df =  pd.read_csv('static/data/recipe.csv')
+    ds = df.groupby("category_name")['dish_views'].sum()
+    #categories=df.groupby("category_name")['category_name'].sum()
+    categories = ["Aperitif","Dessert","Intermediate","Main","Starter"]
+    
+    pie_color = ("red", "green", "orange", "cyan", "blue")
+    fig, ax = plt.subplots()
+    ax.pie(ds, labels=categories,colors = pie_color, autopct='%1.1f%%', startangle=90, pctdistance=0.55)
+    inner_circle = plt.Circle((0,0),0)
+    fig = plt.gcf()
+    fig.gca().add_artist(inner_circle)
+    ax.axis('equal')  
+    ax.set_title("Views Per Category\n",fontsize=24)
+    plt.tight_layout()
+    canvas = FigureCanvas(fig)
+    img = BytesIO()
+    fig.savefig(img)
+    img.seek(0)
+    return send_file(img, mimetype='image/png')
+    
     
 @app.route('/')
 def index():
