@@ -5,3 +5,22 @@
 .list-inline-item:not(:last-child) {
     margin: 0 !important;
 }
+
+.pagination ul li {
+    list-style-type: none;
+    display: inline-block;
+    padding: 12px;
+    background-color: #5bc26a;
+}
+.pagination-page-info {
+  width: 100%
+}
+.views {
+    display: inline-block;
+}
+.upvotes {
+    font-size: 17px!important;
+}
+.chart-image {
+    width: 100%;
+}
