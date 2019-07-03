@@ -28,12 +28,15 @@
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
            <i class="fas fa-book-reader"></i> Categories
         </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="{{url_for('aperitif')}}">Aperitifs</a>
-            <a class="dropdown-item" href="{{url_for('starter')}}">Starters</a>
-            <a class="dropdown-item" href="{{url_for('intermediate')}}">Intermediate</a>
-            <a class="dropdown-item" href="{{url_for('main')}}">Mains</a>
-            <a class="dropdown-item" href="{{url_for('dessert')}}">Desserts</a>
+          <div class="dropdown-menu">
+            <ul class="list-group">
+              <li class="list-group-item"><a href="{{url_for('aperitif')}}">Aperitifs</a></li>
+              <li class="list-group-item"><a href="{{url_for('starter')}}">Starters</a></li>
+              <li class="list-group-item"><a href="{{url_for('intermediate')}}">Intermediate</a></li>
+              <li class="list-group-item"><a href="{{url_for('main')}}">Mains</a></li>
+              <li class="list-group-item"><a href="{{url_for('dessert')}}">Desserts</a></li>
+            </ul>
+
           </div>
         </li>
         <li class="nav-item">
@@ -48,7 +51,14 @@
       </ul>
     </div>
   </nav>
-  {% block content %} {% endblock %}
+  <div class="col-md-8 offset-md-2 text-center">
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+  </div>
+  {% block content %}{% endblock %}
 
 </body>
 <!--Font Awesome-->
