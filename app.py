@@ -17,7 +17,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 app.config["MONGO_DBNAME"] = 'cook-book'
-app.config["MONGO_URI"] = 'mongodb+srv://tode:1Martie1998@myfirstcluster-dxyoc.mongodb.net/cook-book?retryWrites=true&w=majority'
+app.config["MONGO_URI"] = 'mongodb+srv://tode:1Martie1998@myfirstcluster-dxyoc.mongodb.net/cook-book?retryWrites=true'
 
 mongo = PyMongo(app)
 
@@ -44,35 +44,36 @@ def top_ten():
              
 @app.route("/aperitif")
 def aperitif():
-    return render_template("recipes.html",
+    
+    return render_template("filtered.html",
     recipes=mongo.db.recipes.find({
             "$and": [{"category_name": 'Aperitif'},
                     {"category_name": {'$exists': True}}]}))
                     
 @app.route("/starter")
 def starter():
-    return render_template("recipes.html",
+    return render_template("filtered.html",
     recipes=mongo.db.recipes.find({
             "$and": [{"category_name": 'Starter'},
                     {"category_name": {'$exists': True}}]}))
                     
 @app.route("/intermediate")
 def intermediate():
-    return render_template("recipes.html",
+    return render_template("filtered.html",
     recipes=mongo.db.recipes.find({
             "$and": [{"category_name": 'Intermediate'},
                     {"category_name": {'$exists': True}}]}))
                     
 @app.route("/main")
 def main():
-    return render_template("recipes.html",
+    return render_template("filtered.html",
     recipes=mongo.db.recipes.find({
             "$and": [{"category_name": 'Main'},
                     {"category_name": {'$exists': True}}]}))
                     
 @app.route("/dessert")
 def dessert():
-    return render_template("recipes.html",
+    return render_template("filtered.html",
     recipes=mongo.db.recipes.find({
             "$and": [{"category_name": 'Dessert'},
                     {"category_name": {'$exists': True}}]}))
@@ -88,10 +89,15 @@ def addrecipe():
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-    upload_file()
     value = {
-            
-        'dish_photo':request.form.get('dish_photo')
+        'dish_name':request.form.get('dish_name'),
+        'dish_author':request.form.get('dish_author'),
+        'dish_required_skill': request.form.get('dish_required_skill'),
+        'dish_prep_time': request.form.get('dish_prep_time'),
+        'dish_origin_cuisine':request.form.get('dish_origin_cuisine'),
+        'dish_ingredients':request.form.get('dish_ingredients'),
+        'dish_preparation_steps':request.form.get('dish_preparation_steps'),
+        'category_name':request.form.get('category_name') 
     }
     recipes =  mongo.db.recipes
     recipes.insert_one(request.form.to_dict())
@@ -126,8 +132,14 @@ def edit_recipe(recipe_id):
 def update_recipe(recipe_id):
     recipes = mongo.db.recipes
     value = {
-            
-        'dish_photo':request.form.get('dish_photo')
+        'dish_name':request.form.get('dish_name'),
+        'dish_author':request.form.get('dish_author'),
+        'dish_required_skill': request.form.get('dish_required_skill'),
+        'dish_prep_time': request.form.get('dish_prep_time'),
+        'dish_origin_cuisine':request.form.get('dish_origin_cuisine'),
+        'dish_ingredients':request.form.get('dish_ingredients'),
+        'dish_preparation_steps':request.form.get('dish_preparation_steps'),
+        'category_name':request.form.get('category_name') 
     }
     recipes.update( {'_id': ObjectId(recipe_id)},value)
    # pprint.pprint(value)
