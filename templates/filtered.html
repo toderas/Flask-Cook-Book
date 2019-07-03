@@ -1,0 +1,27 @@
+{% extends 'home.html'%} {% block content %}
+<div class="container">
+    <div class="row">
+        {% for recipe in recipes %}
+
+        <div class="col-12 col-sm-6 col-md-4 recipe-card">
+            <div class="card mt-1 mb-3">
+                <img class="card-img-top receipe-picture" src="static/receipe-pictures/{{ recipe.dish_photo | default('aperol-spritz.jpg') }}" alt={{ recipe.dish_name }}/>
+                <div class="card-body">
+                    <div>
+                        <h5 class="card-title"><i class="fas fa-tag"></i> {{recipe.dish_name}}</h5>
+                    </div>
+                    <div class="mb-2"><i class="fas fa-user-edit"></i> <strong>{{recipe.dish_author}}</strong></div>
+                    <div><i class="fas fa-utensils"></i> {{recipe.category_name}}</div>
+                    <div class="row mb-2">
+                        <div class="col-5"><i class="fas fa-user-cog"></i> {{recipe.dish_required_skill}}</div>
+                        <div class="col-7"><i class="fas fa-stopwatch"></i> {{recipe.dish_prep_time}}</div>
+                    </div>
+
+                    <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}"><button class="btn btn-sm">See Recipe</button></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
