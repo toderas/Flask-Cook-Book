@@ -1,20 +1,16 @@
 import os
 from helpers import *
+from chart import *
 from flask import Flask, render_template, redirect, request, url_for, flash
 from flask_pymongo import PyMongo, pymongo
 from bson.objectid import ObjectId
-from werkzeug import secure_filename
 from flask_paginate import Pagination
 import pprint;
 
-data_file = "static/data/recipe.csv"
 
-UPLOAD_FOLDER = './/static/receipe-pictures/'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
+app.secret_key = "super secret key"
 
 app.config["MONGO_DBNAME"] = 'cook-book'
 app.config["MONGO_URI"] = 'mongodb+srv://tode:1Martie1998@myfirstcluster-dxyoc.mongodb.net/cook-book?retryWrites=true'
@@ -31,7 +27,7 @@ def recipes():
     recipes = mongo.db.recipes.find().sort('dish_upvotes', pymongo.DESCENDING)
     pagination = Pagination(page=page, total=recipes.count(),
                             record_name='recipes')
-    recipe_list = paginate_list(recipes, page, 6)
+    recipe_list = paginate_list(recipes, page, 10)
     return render_template("recipes.html", recipes=recipe_list,
                            pagination=pagination)
                            
@@ -101,7 +97,7 @@ def insert_recipe():
     }
     recipes =  mongo.db.recipes
     recipes.insert_one(request.form.to_dict())
-    pprint.pprint(value)
+    flash (f'Recipe Added Successfully', 'success')
     return redirect(url_for('recipes'))
     
     
@@ -139,45 +135,77 @@ def update_recipe(recipe_id):
         'dish_origin_cuisine':request.form.get('dish_origin_cuisine'),
         'dish_ingredients':request.form.get('dish_ingredients'),
         'dish_preparation_steps':request.form.get('dish_preparation_steps'),
-        'category_name':request.form.get('category_name') 
+        'category_name':request.form.get('category_name'),
     }
     recipes.update( {'_id': ObjectId(recipe_id)},value)
-   # pprint.pprint(value)
-    return redirect(url_for('recipes'))
+    flash (f'Recipe has been updated','success')
+    the_recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    all_recipes =  mongo.db.recipes.find(the_recipe)
+    return render_template('showrecipe.html', recipe=the_recipe,
+                           recipes=all_recipes)
     
+
 
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
+    flash (f'Recipe has been Removed','danger')
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     return redirect(url_for('recipes'))
     
     
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-
-def upload_file():
-    if request.method == 'POST':
-        file = request.files['dish_photo']
-        pprint.pprint(file)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            pprint.pprint(filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return filename
-            
-
 @app.route('/show_chart')
 def show_chart():
     cursor = mongo.db.recipes.find({}, {'_id': 0, 
                                         "dish_name": 1, "dish_author": 1,"dish_views": 1,"dish_upvotes": 1,"dish_prep_time": 1,"dish_required_skill": 1,
                                          "dish_origin_cuisine": 1, "category_name": 1,
                                          })
-                                        
     total_recipes = cursor.count()
     write_to_csv(data_file, cursor)
-    return render_template("charts.html", total_recipes=total_recipes, )
+    return render_template("charts.html", total_recipes=total_recipes, title="Statistics" )
+
+@app.route('/donut_pie_chart_views/')
+def donut_pie_chart_views():
+    df =  pd.read_csv('static/data/recipe.csv')
+    ds = df.groupby("category_name")['dish_views'].sum()
+    #categories=df.groupby("category_name")['category_name'].sum()
+    categories = ["Aperitif","Dessert","Intermediate","Main","Starter"]
+    
+    pie_color = ("red", "green", "orange", "cyan", "blue")
+    fig, ax = plt.subplots()
+    ax.pie(ds, labels=categories,colors = pie_color, autopct='%1.1f%%', startangle=90, pctdistance=0.55)
+    inner_circle = plt.Circle((0,0),0)
+    fig = plt.gcf()
+    fig.gca().add_artist(inner_circle)
+    ax.axis('equal')  
+    ax.set_title("Views Per Category\n",fontsize=24)
+    plt.tight_layout()
+    canvas = FigureCanvas(fig)
+    img = BytesIO()
+    fig.savefig(img)
+    img.seek(0)
+    return send_file(img, mimetype='image/png')
+    
+@app.route('/donut_pie_chart_likes/')
+def donut_pie_chart_likes():
+    df =  pd.read_csv('static/data/recipe.csv')
+    ds = df.groupby("category_name")['dish_upvotes'].sum()
+    #categories=df.groupby("category_name")['category_name'].sum()
+    categories = ["Aperitif","Dessert","Intermediate","Main","Starter"]
+    
+    pie_color = ("red", "green", "orange", "cyan", "blue")
+    fig, ax = plt.subplots()
+    ax.pie(ds, labels=categories,colors = pie_color, autopct='%1.1f%%', startangle=90, pctdistance=0.55)
+    inner_circle = plt.Circle((0,0),0)
+    fig = plt.gcf()
+    fig.gca().add_artist(inner_circle)
+    ax.axis('equal')  
+    ax.set_title("Likes Per Category\n",fontsize=24)
+    plt.tight_layout()
+    canvas = FigureCanvas(fig)
+    img = BytesIO()
+    fig.savefig(img)
+    img.seek(0)
+    return send_file(img, mimetype='image/png')
            
            
      
