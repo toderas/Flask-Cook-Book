@@ -6,7 +6,7 @@ from flask_pymongo import PyMongo, pymongo
 from bson.objectid import ObjectId
 from flask_paginate import Pagination
 import pprint;
-from forms import AddRecipeForm
+from forms import *
 
 
 
@@ -79,21 +79,19 @@ def dessert():
 
 
 
-@app.route('/addrecipe', methods=['GET', 'POST'])
+@app.route('/addrecipe', methods=['GET','POST'])
 def addrecipe():
     form = AddRecipeForm()
-    if form.validate_on_submit():
-        flash(f'Recipe  created for {form.recipe_author.data}!', 'success')
+    if request.method == 'POST' and form.validate_on_submit():
+        flash (f'Recipe  created for {form.dish_name.data}!', 'success')
+        recipes = mongo.db.recipes
+        recipes.insert_one(request.form.to_dict())
+        return redirect(url_for('recipes', form=form))
+   
     return render_template("addrecipe.html",
                            categories=mongo.db.categories.find(),
                            skills=mongo.db.skills.find(),title='New Recipe', form=form)
     
-
-@app.route('/insert_recipe', methods=['POST'])
-def insert_recipe():
-    recipes =  mongo.db.recipes
-    recipes.insert_one(request.form.to_dict())
-    return redirect(url_for('recipes'))
     
     
 @app.route('/show_recipe/<recipe_id>')
