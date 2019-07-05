@@ -10,10 +10,8 @@ plt.style.use('ggplot')
 import csv
 from collections import OrderedDict
 
- 
 app = Flask(__name__)
 
- #dish_upvotes,dish_views
 @app.route('/donut_pie_chart_likes/')
 def donut_pie_chart_likes():
     df =  pd.read_csv('static/data/recipe.csv')
@@ -61,9 +59,3 @@ def donut_pie_chart_views():
     return send_file(img, mimetype='image/png')
     
     
-@app.route('/')
-def index():
-    return render_template("charts.html")
-    
-if __name__ == '__main__':
-     app.run(host='0.0.0.0', port=8080, debug=True)

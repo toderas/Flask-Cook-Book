@@ -1,11 +1,36 @@
 {% extends 'home.html'%} {% block content %}
-<div class="container">
+<!--Testing Flask From -->
+<form method="POST" action="{{url_for('insert_recipe')}}">
+  {{form.hidden_tag}}
+  <div class="form-group">
+    {{ form.dish_author.label(class="form-control-label") }} {% if form.dish_author.errors %} {{ form.dish_author(class="form-control form-control-lg is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.dish_author.errors %}
+      <span>{{ error }}</span> {% endfor %}
+    </div>
+    {% else %} {{ form.dish_author(class="form-control form-control-lg") }} {% endif %}
+  </div>
+  <div class="form-group">
+    {{ form.dish_prep_time.label(class="form-control-label") }} {% if form.dish_prep_time.errors %} {{ form.dish_prep_time(class="form-control form-control-lg is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.dish_prep_time.errors %}
+      <span>{{ error }}</span> {% endfor %}
+    </div>
+    {% else %} {{ form.dish_prep_time(class="form-control form-control-lg") }} {% endif %}
+  </div>
+  <div class="form-group">
+    {{ form.submit(class="btn btn-outline-info") }}
+  </div>
+</form>
+<!--END-->
+
+<!--<div class="container">
   <form action="{{url_for('insert_recipe')}}" method="POST">
     <div class="row">
       <div class="col-12 col-md-4">
         <div class="form-group">
           <label for="Name">Name</label>
-          <input type="text"  class="form-control" id="dish_name" name="dish_name" placeholder="Type Name" required>
+          <input type="text" class="form-control" id="dish_name" name="dish_name" placeholder="Type Name" required>
         </div>
         <div class="form-group">
           <label for="Author">Author</label>
@@ -31,7 +56,9 @@
         </div>
         <div class="form-group">
           <label for="Preparation time">Preparation Time</label>
-          <textarea class="form-control" name="dish_prep_time" id="dish_prep_time" rows="3" required></textarea>
+          <input placeholder="Enter estimated preparation time in minutes" class="form-control" name="dish_prep_time" id="dish_prep_time" required type="number" maxlength="2" min="0" max="300" />
+
+          <!--<textarea class="form-control" name="dish_prep_time" id="dish_prep_time" rows="3" required></textarea>-- 
         </div>
         <div class="form-group">
           <label for="Cuisine">Cuisine</label>
@@ -51,7 +78,5 @@
       </div>
     </div>
   </form>
-</div>
-
-
+</div>-->
 {% endblock %}

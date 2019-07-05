@@ -36,7 +36,7 @@
         <div class="form-group">
           <label for="dish_prep_time">Preparation Time</label>
 
-          <textarea class="form-control" type="text" value="{{recipe.dish_prep_time}}" name="dish_prep_time" id="dish_prep_time" rows="3">{{recipe.dish_prep_time}}</textarea>
+          <textarea  required class="form-control" type="text" value="{{recipe.dish_prep_time}}" name="dish_prep_time" id="dish_prep_time" rows="3">{{recipe.dish_prep_time}}</textarea>
         </div>
         <div class="form-group">
           <label for="exampleFormControlTextarea1">Cuisine</label>
@@ -44,10 +44,6 @@
         </div>
 
       </div>
-      <div class="col-md-6">
-        <label for="exampleFormControlTextarea1">Add Photo</label>
-          <input class="form-control" type="file" name="dish_photo" id="upload_file">
-        </div>
         <div class="form-group">
           <label for="exampleFormControlTextarea1">Ingredients</label>
           <textarea class="form-control" value="{{recipe.dish_ingredients}}" name="dish_ingredients" id="exampleFormControlTextarea1" rows="7">{{recipe.dish_ingredients}}</textarea>

@@ -6,10 +6,13 @@ from flask_pymongo import PyMongo, pymongo
 from bson.objectid import ObjectId
 from flask_paginate import Pagination
 import pprint;
+from forms import AddRecipeForm
 
 
 
 app = Flask(__name__)
+
+
 app.secret_key = "super secret key"
 
 app.config["MONGO_DBNAME"] = 'cook-book'
@@ -76,28 +79,20 @@ def dessert():
 
 
 
-@app.route('/addrecipe')
+@app.route('/addrecipe', methods=['GET', 'POST'])
 def addrecipe():
+    form = AddRecipeForm()
+    if form.validate_on_submit():
+        flash(f'Recipe  created for {form.recipe_author.data}!', 'success')
     return render_template("addrecipe.html",
                            categories=mongo.db.categories.find(),
-                           skills=mongo.db.skills.find())
+                           skills=mongo.db.skills.find(),title='New Recipe', form=form)
     
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-    value = {
-        'dish_name':request.form.get('dish_name'),
-        'dish_author':request.form.get('dish_author'),
-        'dish_required_skill': request.form.get('dish_required_skill'),
-        'dish_prep_time': request.form.get('dish_prep_time'),
-        'dish_origin_cuisine':request.form.get('dish_origin_cuisine'),
-        'dish_ingredients':request.form.get('dish_ingredients'),
-        'dish_preparation_steps':request.form.get('dish_preparation_steps'),
-        'category_name':request.form.get('category_name') 
-    }
     recipes =  mongo.db.recipes
     recipes.insert_one(request.form.to_dict())
-    flash (f'Recipe Added Successfully', 'success')
     return redirect(url_for('recipes'))
     
     
