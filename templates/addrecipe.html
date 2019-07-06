@@ -1,25 +1,26 @@
 {% extends 'home.html'%} {% block content %}
-<!--Testing Flask From -->
-
+<div class="container">
 <form method="POST" action="">
-  {{ form.hidden_tag() }}
-  <div class="form-group col-md-6">
+  {{form.hidden_tag()}}
+  <div class="row">
+  <div class="col-md-6 list-inline">
+  <div class="form-group">
     {{ form.dish_name.label(class="form-control-label") }} {% if form.dish_name.errors %} {{ form.dish_name(class="form-control form-control-lg is-invalid") }}
     <div class="invalid-feedback">
       {% for error in form.dish_name.errors %}
       <span>{{ error }}</span> {% endfor %}
     </div>
-    {% else %} {{ form.dish_name(class="form-control form-control-lg") }} {% endif %}
+    {% else %} {{ form.dish_name(class="form-control ") }} {% endif %}
   </div>
-  <div class="form-group col-md-6">
+  <div class="form-group">
     {{ form.dish_author.label(class="form-control-label") }} {% if form.dish_author.errors %} {{ form.dish_author(class="form-control form-control-lg is-invalid") }}
     <div class="invalid-feedback">
       {% for error in form.dish_author.errors %}
       <span>{{ error }}</span> {% endfor %}
     </div>
-    {% else %} {{ form.dish_author(class="form-control form-control-lg") }} {% endif %}
+    {% else %} {{ form.dish_author(class="form-control") }} {% endif %}
   </div>
-  <div class="form-group col-md-6">
+  <div class="form-group">
     {{ form.dish_prep_time.label(class="form-control-label") }} {% if form.dish_prep_time.errors %} {{ form.dish_prep_time(class="form-control form-control-lg is-invalid") }}
     <div class="invalid-feedback">
       {% for error in form.dish_prep_time.errors %}
@@ -27,7 +28,7 @@
     </div>
     {% else %} {{ form.dish_prep_time(class="form-control form-control-lg") }} {% endif %}
   </div>
-  <div class="form-group col-md-6">
+  <div class="form-group">
     {{ form.dish_origin_cuisine.label(class="form-control-label") }} {% if form.dish_origin_cuisine.errors %} {{ form.dish_origin_cuisine(class="form-control form-control-lg is-invalid") }}
     <div class="invalid-feedback">
       {% for error in form.dish_origin_cuisine.errors %}
@@ -35,7 +36,9 @@
     </div>
     {% else %} {{ form.dish_origin_cuisine(class="form-control form-control-lg") }} {% endif %}
   </div>
-  <div class="form-group col-md-6">
+  </div>
+  <div class="col-md-6 list-inline">
+  <div class="form-group">
     {{ form.dish_ingredients.label(class="form-control-label") }} {% if form.dish_ingredients.errors %} {{ form.dish_ingredients(class="form-control form-control-lg is-invalid") }}
     <div class="invalid-feedback">
       {% for error in form.dish_ingredients.errors %}
@@ -43,7 +46,7 @@
     </div>
     {% else %} {{ form.dish_ingredients(class="form-control form-control-lg") }} {% endif %}
   </div>
-  <div class="form-group col-md-6">
+  <div class="form-group">
     {{ form.dish_preparation_steps.label(class="form-control-label") }} {% if form.dish_preparation_steps.errors %} {{ form.dish_preparation_steps(class="form-control form-control-lg is-invalid") }}
     <div class="invalid-feedback">
       {% for error in form.dish_preparation_steps.errors %}
@@ -51,7 +54,7 @@
     </div>
     {% else %} {{ form.dish_preparation_steps(class="form-control form-control-lg") }} {% endif %}
   </div>
-  <div class="form-group col-md-6">
+  <div class="form-group">
     <label for="Category">Category</label>
     <select class="form-control" id="categories" name="category_name" required>
             <option value="" selected disabled>Select</option>
@@ -60,7 +63,7 @@
             {% endfor %}
           </select>
   </div>
-  <div class="form-group col-md-6">
+  <div class="form-group">
     <label for="Difficulty Level">Difficulty Level</label>
     <select class="form-control" id="dish_required_skill" name="dish_required_skill" required>
       <option value="" selected disabled>Select</option>
@@ -71,6 +74,8 @@
     <div class="form-group">
     {{ form.submit(class="btn btn-outline-info") }}
   </div>
-    
+  </div>
+  </div>
 </form>
-    {% endblock %}
+</div>
+{% endblock %}
