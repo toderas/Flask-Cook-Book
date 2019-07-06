@@ -105,22 +105,15 @@ def show_recipe(recipe_id):
     
     
 
-@app.route('/edit_recipe/<recipe_id>')
+@app.route('/edit_recipe/<recipe_id>', methods=['GET','POST'])
 def edit_recipe(recipe_id):
-    get_recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
-    get_details = mongo.db.recipes.find(get_recipe)
-    get_categories =  mongo.db.categories.find()
-    get_skills = mongo.db.skills.find()
-    return render_template('editrecipe.html', recipe=get_recipe,
-                            recipes=get_details,
-                           categories=get_categories,
-                           skills=get_skills)
-                           
-                           
-@app.route('/update_recipe/<recipe_id>', methods=["POST"])
-def update_recipe(recipe_id):
-    recipes = mongo.db.recipes
-    value = {
+    form = EditRecipeForm()
+    recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    categories =  mongo.db.categories.find()
+    skills = mongo.db.skills.find()
+    if request.method == 'POST' and form.validate_on_submit():
+        flash (f' {form.dish_name.data} Has Been Succesfully Updated', 'success')
+        value = {
         'dish_name':request.form.get('dish_name'),
         'dish_author':request.form.get('dish_author'),
         'dish_required_skill': request.form.get('dish_required_skill'),
@@ -129,15 +122,20 @@ def update_recipe(recipe_id):
         'dish_ingredients':request.form.get('dish_ingredients'),
         'dish_preparation_steps':request.form.get('dish_preparation_steps'),
         'category_name':request.form.get('category_name'),
-    }
-    recipes.update( {'_id': ObjectId(recipe_id)},value)
-    flash (f'Recipe has been updated','success')
-    the_recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
-    all_recipes =  mongo.db.recipes.find(the_recipe)
-    return render_template('showrecipe.html', recipe=the_recipe,
-                           recipes=all_recipes)
-    
-
+        }
+        recipes = mongo.db.recipes
+        recipes.update( {'_id': ObjectId(recipe_id)},value)
+        return redirect(url_for('recipes', form=form,value=value))
+    form.dish_name.data = recipe["dish_name"]
+    form.dish_author.data = recipe["dish_author"]
+    form.dish_prep_time.data = recipe["dish_prep_time"]
+    form.dish_origin_cuisine.data = recipe["dish_origin_cuisine"]
+    form.dish_ingredients.data = recipe["dish_ingredients"]
+    form.dish_preparation_steps.data = recipe["dish_preparation_steps"]
+    return render_template('editrecipe.html',form=form, recipe=recipe,
+                           categories=categories,
+                           skills=skills)
+                           
 
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
