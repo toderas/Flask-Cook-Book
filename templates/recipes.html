@@ -2,7 +2,6 @@
 <div class="container">
   <div class="row">
     {% for recipe in recipes %}
-
     <div class="col-12 col-sm-6 col-md-4 recipe-card">
       <div class="card mt-1 mb-3">
         <img class="card-img-top receipe-picture" src="static/receipe-pictures/{{ recipe.dish_photo | default('aperol-spritz.jpg') }}" alt={{ recipe.dish_name }}/>
