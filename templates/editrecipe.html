@@ -1,60 +1,73 @@
 {% extends 'home.html'%} {% block content %}
-<div class="container">
-  <form action={{url_for( 'update_recipe', recipe_id=recipe._id)}} method="POST" enctype=multipart/form-data>
-
-    <div class="row">
-      <div class="col-12 col-md-4">
-        <div class="form-group">
-          <label for="exampleFormControlSelect1">Name</label>
-          <input type="text" value="{{recipe.dish_name}}" class="form-control" id="dish_name" name="dish_name" placeholder="Type Name">
-        </div>
-        <div class="form-group">
-          <label for="exampleFormControlSelect1">Author</label>
-          <input type="text" value="{{recipe.dish_author}}" class="form-control" id="dish_author" name="dish_author" placeholder="Type Name">
-        </div>
-        <div class="form-group">
-          <label for="category_name">Category</label>
-          <select class="form-control" id="category_name" name="category_name">
-          
-             {% for course in categories %}
-                     <option value="{{course.category_name}}">{{course.category_name}}</option>
-                      
-                  {% endfor %}
-             <option selected value="{{recipe.category_name}}" selected>{{recipe.category_name}}</option>
-</select>
-        </div>
-        <div class="form-group">
-          <label for="dish_required_skill">Difficulty Level</label>
-          <select class="form-control" id="dish_required_skill" name="dish_required_skill">
-             
-      {% for required in skills %}
-                      <option value="{{required.skill_name}}">{{required.skill_name}}</option>
-                  {% endfor %}
-                  <option selected  value="{{recipe.dish_required_skill}}"selected>{{recipe.dish_required_skill}}</option>
-    </select>
-        </div>
-        <div class="form-group">
-          <label for="dish_prep_time">Preparation Time</label>
-
-          <textarea  required class="form-control" type="text" value="{{recipe.dish_prep_time}}" name="dish_prep_time" id="dish_prep_time" rows="3">{{recipe.dish_prep_time}}</textarea>
-        </div>
-        <div class="form-group">
-          <label for="exampleFormControlTextarea1">Cuisine</label>
-          <textarea name="dish_origin_cuisine" value="{{recipe.dish_origin_cuisine}}" class="form-control" id="exampleFormControlTextarea1" rows="3">{{recipe.dish_origin_cuisine}}</textarea>
-        </div>
-
-      </div>
-        <div class="form-group">
-          <label for="exampleFormControlTextarea1">Ingredients</label>
-          <textarea class="form-control" value="{{recipe.dish_ingredients}}" name="dish_ingredients" id="exampleFormControlTextarea1" rows="7">{{recipe.dish_ingredients}}</textarea>
-        </div>
-        <div class="form-group">
-          <label for="exampleFormControlTextarea1">Recommended Steps</label>
-          <textarea class="form-control" value="{{recipe.dish_preparation_steps}}" name="dish_preparation_steps" id="exampleFormControlTextarea1" rows="7">{{recipe.dish_preparation_steps}}</textarea>
-        </div>
-        <button type="submit" class="btn btn-sm btn-success">Update Recipe</button>
-      </div>
+<form method="POST" action="">
+  {{form.hidden_tag()}}
+  <div class="form-group col-md-6">
+    {{ form.dish_name.label(class="form-control-label") }} {% if form.dish_name.errors %} {{ form.dish_name(class="form-control form-control-lg is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.dish_name.errors %}
+      <span>{{ error }}</span> {% endfor %}
     </div>
-  </form>
-</div>
+    {% else %} {{ form.dish_name(class="form-control ") }} {% endif %}
+  </div>
+  <div class="form-group col-md-6">
+    {{ form.dish_author.label(class="form-control-label") }} {% if form.dish_author.errors %} {{ form.dish_author(class="form-control form-control-lg is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.dish_author.errors %}
+      <span>{{ error }}</span> {% endfor %}
+    </div>
+    {% else %} {{ form.dish_author(class="form-control") }} {% endif %}
+  </div>
+  <div class="form-group col-md-6">
+    {{ form.dish_prep_time.label(class="form-control-label") }} {% if form.dish_prep_time.errors %} {{ form.dish_prep_time(class="form-control form-control-lg is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.dish_prep_time.errors %}
+      <span>{{ error }} Please enter Estimated preparation time in minutes (eg.15)</span> {% endfor %}
+    </div>
+    {% else %} {{ form.dish_prep_time(class="form-control form-control-lg") }} {% endif %}
+  </div>
+  <div class="form-group col-md-6">
+    {{ form.dish_origin_cuisine.label(class="form-control-label") }} {% if form.dish_origin_cuisine.errors %} {{ form.dish_origin_cuisine(class="form-control form-control-lg is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.dish_origin_cuisine.errors %}
+      <span>{{ error }}</span> {% endfor %}
+    </div>
+    {% else %} {{ form.dish_origin_cuisine(class="form-control form-control-lg") }} {% endif %}
+  </div>
+  <div class="form-group col-md-6">
+    {{ form.dish_ingredients.label(class="form-control-label") }} {% if form.dish_ingredients.errors %} {{ form.dish_ingredients(class="form-control form-control-lg is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.dish_ingredients.errors %}
+      <span>{{ error }}</span> {% endfor %}
+    </div>
+    {% else %} {{ form.dish_ingredients(class="form-control form-control-lg") }} {% endif %}
+  </div>
+  <div class="form-group col-md-6">
+    {{ form.dish_preparation_steps.label(class="form-control-label") }} {% if form.dish_preparation_steps.errors %} {{ form.dish_preparation_steps(class="form-control form-control-lg is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.dish_preparation_steps.errors %}
+      <span>{{ error }}</span> {% endfor %}
+    </div>
+    {% else %} {{ form.dish_preparation_steps(class="form-control form-control-lg") }} {% endif %}
+  </div>
+  <div class="form-group col-md-6">
+    <label for="Category">Category</label>
+    <select class="form-control" id="categories" name="category_name" required>
+            <option value="" selected disabled>Select</option>
+            {% for course in categories %}
+              <option  value="{{course.category_name}}">{{course.category_name}}</option>
+            {% endfor %}
+          </select>
+  </div>
+  <div class="form-group col-md-6">
+    <label for="Difficulty Level">Difficulty Level</label>
+    <select class="form-control" id="dish_required_skill" name="dish_required_skill" required>
+      <option value="" selected disabled>Select</option>
+      {% for required in skills %}
+                      <option  value="{{required.skill_name}}">{{required.skill_name}}</option>
+                  {% endfor %}
+    </div>
+    <div class="form-group">
+    {{ form.submit(class="btn btn-outline-info") }}
+  </div>
+</form>
 {% endblock %}
