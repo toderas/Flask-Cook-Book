@@ -2,7 +2,7 @@
 <!--Testing Flask From -->
 
 <form method="POST" action="">
-  {{form.hidden_tag()}}
+  {{ form.hidden_tag() }}
   <div class="form-group col-md-6">
     {{ form.dish_name.label(class="form-control-label") }} {% if form.dish_name.errors %} {{ form.dish_name(class="form-control form-control-lg is-invalid") }}
     <div class="invalid-feedback">
@@ -27,7 +27,7 @@
     </div>
     {% else %} {{ form.dish_prep_time(class="form-control form-control-lg") }} {% endif %}
   </div>
-   <div class="form-group col-md-6">
+  <div class="form-group col-md-6">
     {{ form.dish_origin_cuisine.label(class="form-control-label") }} {% if form.dish_origin_cuisine.errors %} {{ form.dish_origin_cuisine(class="form-control form-control-lg is-invalid") }}
     <div class="invalid-feedback">
       {% for error in form.dish_origin_cuisine.errors %}
@@ -68,8 +68,6 @@
                       <option  value="{{required.skill_name}}">{{required.skill_name}}</option>
                   {% endfor %}
     </div>
-     
-    
     <div class="form-group">
     {{ form.submit(class="btn btn-outline-info") }}
   </div>
