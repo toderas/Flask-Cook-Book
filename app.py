@@ -43,39 +43,66 @@ def top_ten():
              
 @app.route("/aperitif")
 def aperitif():
-    
-    return render_template("filtered.html",
+    page = get_page()
     recipes=mongo.db.recipes.find({
             "$and": [{"category_name": 'Aperitif'},
-                    {"category_name": {'$exists': True}}]}))
+                    {"category_name": {'$exists': True}}]})
+    pagination = Pagination(page=page, total=recipes.count(),
+                            record_name='recipes')
+    recipe_list = paginate_list(recipes, page, 10)
+    return render_template("recipes.html",
+                             recipes=recipe_list , pagination=pagination)
                     
 @app.route("/starter")
 def starter():
-    return render_template("filtered.html",
+    page = get_page()
     recipes=mongo.db.recipes.find({
             "$and": [{"category_name": 'Starter'},
-                    {"category_name": {'$exists': True}}]}))
+                    {"category_name": {'$exists': True}}]})
+    pagination = Pagination(page=page, total=recipes.count(),
+                            record_name='recipes')
+    recipe_list = paginate_list(recipes, page, 10)
+    return render_template("recipes.html",
+                             recipes=recipe_list , pagination=pagination)
+                             
                     
 @app.route("/intermediate")
 def intermediate():
-    return render_template("filtered.html",
+    page = get_page()
     recipes=mongo.db.recipes.find({
             "$and": [{"category_name": 'Intermediate'},
-                    {"category_name": {'$exists': True}}]}))
+                    {"category_name": {'$exists': True}}]})
+    pagination = Pagination(page=page, total=recipes.count(),
+                            record_name='recipes')
+    recipe_list = paginate_list(recipes, page, 10)
+    return render_template("recipes.html",
+                             recipes=recipe_list , pagination=pagination)
+                             
                     
 @app.route("/main")
 def main():
-    return render_template("filtered.html",
+    page = get_page()
     recipes=mongo.db.recipes.find({
             "$and": [{"category_name": 'Main'},
-                    {"category_name": {'$exists': True}}]}))
+                    {"category_name": {'$exists': True}}]})
+    pagination = Pagination(page=page, total=recipes.count(),
+                            record_name='recipes')
+    recipe_list = paginate_list(recipes, page, 10)
+    return render_template("recipes.html",
+                             recipes=recipe_list , pagination=pagination)
+                             
                     
 @app.route("/dessert")
 def dessert():
-    return render_template("filtered.html",
+    page = get_page()
     recipes=mongo.db.recipes.find({
             "$and": [{"category_name": 'Dessert'},
-                    {"category_name": {'$exists': True}}]}))
+                    {"category_name": {'$exists': True}}]})
+    pagination = Pagination(page=page, total=recipes.count(),
+                            record_name='recipes')
+    recipe_list = paginate_list(recipes, page, 10)
+    return render_template("recipes.html",
+                             recipes=recipe_list , pagination=pagination)
 
 
 
@@ -158,9 +185,7 @@ def show_chart():
 def donut_pie_chart_views():
     df =  pd.read_csv('static/data/recipe.csv')
     ds = df.groupby("category_name")['dish_views'].sum()
-    #categories=df.groupby("category_name")['category_name'].sum()
     categories = ["Aperitif","Dessert","Intermediate","Main","Starter"]
-    
     pie_color = ("red", "green", "orange", "cyan", "blue")
     fig, ax = plt.subplots()
     ax.pie(ds, labels=categories,colors = pie_color, autopct='%1.1f%%', startangle=90, pctdistance=0.55)
@@ -180,9 +205,7 @@ def donut_pie_chart_views():
 def donut_pie_chart_likes():
     df =  pd.read_csv('static/data/recipe.csv')
     ds = df.groupby("category_name")['dish_upvotes'].sum()
-    #categories=df.groupby("category_name")['category_name'].sum()
     categories = ["Aperitif","Dessert","Intermediate","Main","Starter"]
-    
     pie_color = ("red", "green", "orange", "cyan", "blue")
     fig, ax = plt.subplots()
     ax.pie(ds, labels=categories,colors = pie_color, autopct='%1.1f%%', startangle=90, pctdistance=0.55)
@@ -197,7 +220,7 @@ def donut_pie_chart_likes():
     fig.savefig(img)
     img.seek(0)
     return send_file(img, mimetype='image/png')
-           
+    
            
      
 @app.route('/upvote/<recipe_id>', methods=["POST"])
