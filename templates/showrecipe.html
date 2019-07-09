@@ -3,12 +3,6 @@
   <div class="col-12">
     <div class="card mt-1 mb-3">
       <img class="card-img-top receipe-picture" src="{{url_for('static', filename='receipe-pictures/aperol-spritz.jpg')}}" alt="Card image cap">
-      <div class="likes-views">
-        <form class="btn" action="{{ url_for('upvote', recipe_id=recipe._id)}}" method="POST">
-        <button class="btn-sm btn-success upvotes" type="submit"><i class="fas fa-thumbs-up">{{recipe.dish_upvotes}}</i></button>
-        </form>
-        <div class="views"><i class="fas fa-lg fa-eye">{{recipe.dish_views}}</i></div>
-      </div>
       <div class="row">
         <div class="card-body col-12 col-sm-4">
           <span><strong>Cooking Steps:</strong></span>
@@ -20,13 +14,19 @@
         </div>
         <div class="card-body col-12 col-sm-4">
           <span>Details:</span>
+          <div class="likes-views">
+            <form class="btn p-0 mt-2 mb-2" action="{{ url_for('upvote', recipe_id=recipe._id)}}" method="POST">
+              <button class="btn-sm btn-success upvotes" type="submit"><i class="fas fa-thumbs-up">{{recipe.dish_upvotes}}</i></button>
+            </form>
+            <div class="views"><i class="fas fa-lg fa-eye">{{recipe.dish_views}}</i></div>
+          </div>
           <div>
             <h5 class="card-title"><i class="fas fa-tag"></i> {{recipe.dish_name}}</h5>
           </div>
           <div class="mb-2"><i class="fas fa-user-edit"></i> <strong>{{recipe.dish_author}}</strong></div>
           <div class="mb-2"><i class="fas fa-utensils"></i> {{recipe.category_name}}</div>
           <div class="mb-2"><i class="fas fa-user-cog"></i> {{recipe.dish_required_skill}}</div>
-          <div class="mb-2"><i class="fas fa-stopwatch"></i> {{recipe.dish_prep_time}}</div>
+          <div class="mb-2"><i class="fas fa-stopwatch"></i> {{recipe.dish_prep_time}} Minutes</div>
           <a href={{url_for( 'edit_recipe', recipe_id=recipe._id)}}><button type="button" class="btn btn-sm btn-success">Edit</button></a>
           <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#confirmation_modal">Delete</button>
         </div>
@@ -40,7 +40,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"></button>
-          <h4 class="modal-title">Are You sure you want to delete this recipe?</h4>
+          <h4 class="modal-title">Are You sure you want to delete {{recipe.dish_name}}?</h4>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Close</button>
