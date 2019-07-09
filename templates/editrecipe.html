@@ -1,78 +1,78 @@
 {% extends 'home.html'%} {% block content %}
 <div class="container">
-<form method="POST" action="">
-  {{form.hidden_tag()}}
-  <div class="row">
-  <div class="col-md-6 list-inline">
-  <div class="form-group">
-    {{ form.dish_name.label(class="form-control-label") }} {% if form.dish_name.errors %} {{ form.dish_name(class="form-control form-control-lg is-invalid") }}
-    <div class="invalid-feedback">
-      {% for error in form.dish_name.errors %}
-      <span>{{ error }}</span> {% endfor %}
-    </div>
-    {% else %} {{ form.dish_name(class="form-control ") }} {% endif %}
-  </div>
-  <div class="form-group">
-    {{ form.dish_author.label(class="form-control-label") }} {% if form.dish_author.errors %} {{ form.dish_author(class="form-control form-control-lg is-invalid") }}
-    <div class="invalid-feedback">
-      {% for error in form.dish_author.errors %}
-      <span>{{ error }}</span> {% endfor %}
-    </div>
-    {% else %} {{ form.dish_author(class="form-control") }} {% endif %}
-  </div>
-  <div class="form-group">
-    {{ form.dish_prep_time.label(class="form-control-label") }} {% if form.dish_prep_time.errors %} {{ form.dish_prep_time(class="form-control form-control-lg is-invalid") }}
-    <div class="invalid-feedback">
-      {% for error in form.dish_prep_time.errors %}
-      <span>{{ error }} Please enter Estimated preparation time in minutes (eg.15)</span> {% endfor %}
-    </div>
-    {% else %} {{ form.dish_prep_time(class="form-control form-control-lg") }} {% endif %}
-  </div>
-  <div class="form-group">
-    {{ form.dish_origin_cuisine.label(class="form-control-label") }} {% if form.dish_origin_cuisine.errors %} {{ form.dish_origin_cuisine(class="form-control form-control-lg is-invalid") }}
-    <div class="invalid-feedback">
-      {% for error in form.dish_origin_cuisine.errors %}
-      <span>{{ error }}</span> {% endfor %}
-    </div>
-    {% else %} {{ form.dish_origin_cuisine(class="form-control form-control-lg") }} {% endif %}
-  </div>
-  </div>
-  <div class="col-md-6 list-inline">
-  <div class="form-group">
-    {{ form.dish_ingredients.label(class="form-control-label") }} {% if form.dish_ingredients.errors %} {{ form.dish_ingredients(class="form-control form-control-lg is-invalid") }}
-    <div class="invalid-feedback">
-      {% for error in form.dish_ingredients.errors %}
-      <span>{{ error }}</span> {% endfor %}
-    </div>
-    {% else %} {{ form.dish_ingredients(class="form-control form-control-lg") }} {% endif %}
-  </div>
-  <div class="form-group">
-    {{ form.dish_preparation_steps.label(class="form-control-label") }} {% if form.dish_preparation_steps.errors %} {{ form.dish_preparation_steps(class="form-control form-control-lg is-invalid") }}
-    <div class="invalid-feedback">
-      {% for error in form.dish_preparation_steps.errors %}
-      <span>{{ error }}</span> {% endfor %}
-    </div>
-    {% else %} {{ form.dish_preparation_steps(class="form-control form-control-lg") }} {% endif %}
-  </div>
-  <div class="form-group">
-    <label for="Category">Category</label>
-    <select class="form-control" id="categories" name="category_name" required>
+  <form method="POST" action="">
+    {{form.hidden_tag()}}
+    <div class="row">
+      <div class="col-md-6 list-inline">
+        <div class="form-group">
+          {{ form.dish_name.label(class="form-control-label") }} {% if form.dish_name.errors %} {{ form.dish_name(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.dish_name.errors %}
+            <span>{{ error }}</span> {% endfor %}
+          </div>
+          {% else %} {{ form.dish_name(class="form-control ") }} {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.dish_author.label(class="form-control-label") }} {% if form.dish_author.errors %} {{ form.dish_author(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.dish_author.errors %}
+            <span>{{ error }}</span> {% endfor %}
+          </div>
+          {% else %} {{ form.dish_author(class="form-control") }} {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.dish_prep_time.label(class="form-control-label") }} {% if form.dish_prep_time.errors %} {{ form.dish_prep_time(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.dish_prep_time.errors %}
+            <span>{{ error }} Please enter Estimated preparation time in minutes (eg.15)</span> {% endfor %}
+          </div>
+          {% else %} {{ form.dish_prep_time(class="form-control form-control-lg") }} {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.dish_origin_cuisine.label(class="form-control-label") }} {% if form.dish_origin_cuisine.errors %} {{ form.dish_origin_cuisine(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.dish_origin_cuisine.errors %}
+            <span>{{ error }}</span> {% endfor %}
+          </div>
+          {% else %} {{ form.dish_origin_cuisine(class="form-control form-control-lg") }} {% endif %}
+        </div>
+      </div>
+      <div class="col-md-6 list-inline">
+        <div class="form-group">
+          {{ form.dish_ingredients.label(class="form-control-label") }} {% if form.dish_ingredients.errors %} {{ form.dish_ingredients(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.dish_ingredients.errors %}
+            <span>{{ error }}</span> {% endfor %}
+          </div>
+          {% else %} {{ form.dish_ingredients(class="form-control form-control-lg") }} {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.dish_preparation_steps.label(class="form-control-label") }} {% if form.dish_preparation_steps.errors %} {{ form.dish_preparation_steps(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.dish_preparation_steps.errors %}
+            <span>{{ error }}</span> {% endfor %}
+          </div>
+          {% else %} {{ form.dish_preparation_steps(class="form-control form-control-lg") }} {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="Category">Category</label>
+          <select class="form-control" id="categories" name="category_name" required>
             <option value="" selected disabled>Select</option>
             {% for course in categories %}
               <option  value="{{course.category_name}}">{{course.category_name}}</option>
             {% endfor %}
           </select>
-  </div>
-  <div class="form-group">
-    <label for="Difficulty Level">Difficulty Level</label>
-    <select class="form-control" id="dish_required_skill" name="dish_required_skill" required>
+        </div>
+        <div class="form-group">
+          <label for="Difficulty Level">Difficulty Level</label>
+          <select class="form-control" id="dish_required_skill" name="dish_required_skill" required>
       <option value="" selected disabled>Select</option>
       {% for required in skills %}
                       <option  value="{{required.skill_name}}">{{required.skill_name}}</option>
                   {% endfor %}
     </div>
     <div class="form-group">
-    {{ form.submit(class="btn btn-outline-info") }}
+    {{ form.submit(class="btn btn-outline-info mt-2 recipe-submit-button") }}
   </div>
   </div>
   </div>
