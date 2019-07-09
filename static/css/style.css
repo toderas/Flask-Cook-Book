@@ -1,10 +1,14 @@
+/* Logo*/
 .logo-image {
     width: 50px;
     height: 50px;
 }
+
 .list-inline-item:not(:last-child) {
     margin: 0 !important;
 }
+
+/*Pagination*/
 
 .pagination ul li {
     list-style-type: none;
@@ -12,15 +16,63 @@
     padding: 12px;
     background-color: #5bc26a;
 }
+
 .pagination-page-info {
-  width: 100%
+    width: 100%
 }
+
+/*Feedback*/
+
 .views {
     display: inline-block;
+    margin-left: 10px;
 }
+
 .upvotes {
-    font-size: 17px!important;
+    font-size: 15px!important;
 }
+/*Statistics*/
 .chart-image {
     width: 100%;
+}
+
+.show {
+    padding: 0!important;
+}
+
+/*Dropdown links on home page for categories*/
+
+.category-link {
+    font-family: cursive!important;
+    background-color: #00b2ff!important;
+}
+
+.category-link:hover {
+    background-color: #80d9ff!important;
+}
+
+.category-link a {
+    color: #222222!important;
+}
+
+/*Add recipe and edit recipe */
+
+.recipe-submit-button {
+    color: #222!important;
+    background-color: #b3e8ff!important;
+}
+
+
+
+.recipe-submit-button:hover {
+    background-color: #00b2ff!important;
+}
+
+/*Display Recipes*/
+
+.user-feedback {
+    position: relative;
+    margin-left: 15px;
+    margin-top: -30px;
+    top: 30px;
 }
