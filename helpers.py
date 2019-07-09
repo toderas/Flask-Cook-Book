@@ -4,7 +4,7 @@ import csv
 
 
 app = Flask(__name__)
-
+# path for csv file 
 data_file = "static/data/recipe.csv"
 
 def get_page():
