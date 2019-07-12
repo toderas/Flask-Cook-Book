@@ -18,10 +18,13 @@ import pprint;
 from forms import *
 
 
+
+
 app = Flask(__name__)
 
 
 app.secret_key = "super secret key"
+
 
 app.config["MONGO_DBNAME"] = 'cook-book'
 app.config["MONGO_URI"] = 'mongodb+srv://tode:1Martie1998@myfirstcluster-dxyoc.mongodb.net/cook-book?retryWrites=true'
@@ -36,11 +39,9 @@ mongo = PyMongo(app)
 def recipes():
     page = get_page()
     recipes = mongo.db.recipes.find().sort('dish_upvotes', pymongo.DESCENDING)
-    pagination = Pagination(page=page, total=recipes.count(),
-                            record_name='recipes')
-    recipe_list = paginate_list(recipes, page, 10)
-    return render_template("recipes.html", recipes=recipe_list,
-                           pagination=pagination, title="Recipes")
+    pagination = Pagination(page=page,per_page=9, total=recipes.count(),record_name='recipes',css_framework='bootstrap4')
+    recipe_list = paginate_list(recipes, page, 9)
+    return render_template("recipes.html", recipes=recipe_list, pagination=pagination, title="Recipes")
 
 
 # retrieves most voted 10 items in db
@@ -56,9 +57,8 @@ def aperitif():
     page = get_page()
     recipes = mongo.db.recipes.find({"$and": [{"category_name": 'Aperitif'},
                                     {"category_name": {'$exists': True}}]})
-    pagination = Pagination(page=page, total=recipes.count(),
-                            record_name='recipes')
-    recipe_list = paginate_list(recipes, page, 10)
+    pagination = Pagination(page=page,per_page=9, total=recipes.count(),record_name='recipes',css_framework='bootstrap4')
+    recipe_list = paginate_list(recipes, page, 9)
     return render_template("recipes.html", recipes=recipe_list, pagination=pagination, title="Aperitifs")
 
 
@@ -67,9 +67,8 @@ def starter():
     page = get_page()
     recipes = mongo.db.recipes.find({"$and": [{"category_name": 'Starter'},
                                     {"category_name": {'$exists': True}}]})
-    pagination = Pagination(page=page, total=recipes.count(),
-                            record_name='recipes')
-    recipe_list = paginate_list(recipes, page, 10)
+    pagination = Pagination(page=page,per_page=9, total=recipes.count(),record_name='recipes',css_framework='bootstrap4')
+    recipe_list = paginate_list(recipes, page, 9)
     return render_template("recipes.html", recipes=recipe_list, pagination=pagination, title="Starters")
 
 
@@ -78,9 +77,8 @@ def intermediate():
     page = get_page()
     recipes = mongo.db.recipes.find({"$and": [{"category_name": 'Intermediate'},
                                     {"category_name": {'$exists': True}}]})
-    pagination = Pagination(page=page, total=recipes.count(),
-                            record_name='recipes')
-    recipe_list = paginate_list(recipes, page, 10)
+    pagination = Pagination(page=page,per_page=9, total=recipes.count(),record_name='recipes',css_framework='bootstrap4')
+    recipe_list = paginate_list(recipes, page, 9)
     return render_template("recipes.html", recipes=recipe_list, pagination=pagination, title="Intermediate")
 
 
@@ -89,9 +87,8 @@ def main():
     page = get_page()
     recipes = mongo.db.recipes.find({"$and": [{"category_name": 'Main'},
                                     {"category_name": {'$exists': True}}]})
-    pagination = Pagination(page=page, total=recipes.count(),
-                            record_name='recipes')
-    recipe_list = paginate_list(recipes, page, 10)
+    pagination = Pagination(page=page,per_page=9, total=recipes.count(),record_name='recipes',css_framework='bootstrap4')
+    recipe_list = paginate_list(recipes, page, 9)
     return render_template("recipes.html", recipes=recipe_list, pagination=pagination, title="Mains")
 
 
@@ -100,15 +97,15 @@ def dessert():
     page = get_page()
     recipes = mongo.db.recipes.find({"$and": [{"category_name": 'Dessert'},
                                     {"category_name": {'$exists': True}}]})
-    pagination = Pagination(page=page, total=recipes.count(),
-                            record_name='recipes')
-    recipe_list = paginate_list(recipes, page, 10)
+    pagination = Pagination(page=page,per_page=9, total=recipes.count(),record_name='recipes',css_framework='bootstrap4')
+    recipe_list = paginate_list(recipes, page, 9)
     return render_template("recipes.html", recipes=recipe_list, pagination=pagination, title="Dessert")
 
 
 @app.route('/addrecipe', methods=['GET', 'POST'])
 def addrecipe():
     form = AddRecipeForm()
+    pprint.pprint(form.data)
     if request.method == 'POST' and form.validate_on_submit():
         flash(f'Recipe  created for {form.dish_name.data}!', 'success')
         recipes = mongo.db.recipes
@@ -157,6 +154,7 @@ def edit_recipe(recipe_id):
     form.dish_origin_cuisine.data = recipe["dish_origin_cuisine"]
     form.dish_ingredients.data = recipe["dish_ingredients"]
     form.dish_preparation_steps.data = recipe["dish_preparation_steps"]
+    
     return render_template('editrecipe.html', form=form, recipe=recipe,
                            categories=categories,
                            skills=skills, title="Edit Recipe")
@@ -235,10 +233,11 @@ def upvote(recipe_id):
 
 
 
-
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080, debug=True)
 # For Heroku Deployment
 
-if __name__ == '__main__':
-    app.run(host=os.environ.get('IP'),
-        port=int(os.environ.get('PORT')),
-        debug=True)
+#if __name__ == '__main__':
+    #app.run(host=os.environ.get('IP'),
+        #port=int(os.environ.get('PORT')),
+        #debug=True)
