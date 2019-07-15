@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SubmitField, FloatField
+from wtforms import StringField, IntegerField, SubmitField, FileField
 from wtforms.validators import DataRequired, Length, NumberRange
 
 
@@ -16,6 +16,9 @@ class AddRecipeForm(FlaskForm):
                                       validators=[DataRequired(), Length(min=2)])
     dish_preparation_steps = StringField('Recommended Steps',
                                       validators=[DataRequired(), Length(min=2)])
+    file = StringField('Filename', validators=[DataRequired()])
+                                     
+    
     submit = SubmitField('Add Recipe')
     
 class EditRecipeForm(FlaskForm):
@@ -31,4 +34,7 @@ class EditRecipeForm(FlaskForm):
                                       validators=[DataRequired(), Length(min=2)])
     dish_preparation_steps = StringField('Recommended Steps',
                                       validators=[DataRequired(), Length(min=2)])
+    file = FileField('Filename')
+   
+                                      
     submit = SubmitField('Update Recipe')
