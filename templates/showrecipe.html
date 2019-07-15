@@ -2,7 +2,7 @@
 <div class="container">
   <div class="col-12">
     <div class="card mt-1 mb-3">
-      <img class="card-img-top receipe-picture" src="static/receipe-pictures/{{ recipe.dish_photo | default('aperol-spritz.jpg') }}" alt="{{recipe.dish_name}}">
+      <img class="card-img-top receipe-picture" src="../static/receipe-pictures/{{ recipe.dish_photo | default('aperol-spritz.jpg') }}" alt={{ recipe.dish_name }}>
       <div class="row">
         <div class="card-body col-12 col-sm-4">
           <span><strong>Cooking Steps:</strong></span>
