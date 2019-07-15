@@ -17,6 +17,19 @@ import pprint;
 # imports forms.py
 from forms import *
 
+# testing upload function
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = '../static/receipe-pictures/'
+ALLOWED_EXTENSIONS = set([ 'png', 'jpg', 'jpeg', 'gif'])
+
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+#end
 
 
 
@@ -107,9 +120,33 @@ def addrecipe():
     form = AddRecipeForm()
     pprint.pprint(form.data)
     if request.method == 'POST' and form.validate_on_submit():
+        # testing photo upload 
+        if 'file' not in request.files:
+            flash('Recipe added with no photo')
+           
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('Recipe added with no photo', 'danger')
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join('static/receipe-pictures/', filename))
+        #end
         flash(f'Recipe  created for {form.dish_name.data}!', 'success')
         recipes = mongo.db.recipes
-        recipes.insert_one(request.form.to_dict())
+        value = {
+                'dish_name': request.form.get('dish_name'),
+                'dish_author': request.form.get('dish_author'),
+                'dish_required_skill': request.form.get('dish_required_skill'),
+                'dish_prep_time': request.form.get('dish_prep_time'),
+                'dish_origin_cuisine': request.form.get('dish_origin_cuisine'),
+                'dish_ingredients': request.form.get('dish_ingredients'),
+                'dish_preparation_steps': request.form.get('dish_preparation_steps'),
+                'category_name': request.form.get('category_name'),
+                'dish_photo': request.files['file'].filename,
+                }
+        recipes.insert(value)
         return redirect(url_for('recipes', form=form))
     return render_template("addrecipe.html",
                            categories=mongo.db.categories.find(),
@@ -144,9 +181,24 @@ def edit_recipe(recipe_id):
                 'dish_ingredients': request.form.get('dish_ingredients'),
                 'dish_preparation_steps': request.form.get('dish_preparation_steps'),
                 'category_name': request.form.get('category_name'),
+                'dish_photo': request.files['file'].filename,
                 }
         recipes = mongo.db.recipes
         recipes.update({'_id': ObjectId(recipe_id)}, value)
+    #testing photo edit
+    
+        #add photo
+        file = request.files['file']
+        image = recipe["dish_photo"]
+        if image != file:
+            if file and allowed_file(file.filename):
+                if file.filename != recipe["dish_photo"]:
+                    image = recipe["dish_photo"]
+                    pprint.pprint(image)
+                    os.remove((os.path.join('static/receipe-pictures/', image)))
+                filename = secure_filename(file.filename)
+                file.save(os.path.join('static/receipe-pictures/', filename))
+        #end
         return redirect(url_for('recipes', form=form, value=value))
     form.dish_name.data = recipe["dish_name"]
     form.dish_author.data = recipe["dish_author"]
@@ -154,21 +206,26 @@ def edit_recipe(recipe_id):
     form.dish_origin_cuisine.data = recipe["dish_origin_cuisine"]
     form.dish_ingredients.data = recipe["dish_ingredients"]
     form.dish_preparation_steps.data = recipe["dish_preparation_steps"]
-    
+    form.file.data = recipe["dish_photo"]
     return render_template('editrecipe.html', form=form, recipe=recipe,
                            categories=categories,
                            skills=skills, title="Edit Recipe")
 
 
 # removes item from database
-@app.route('/delete_recipe/<recipe_id>')
+@app.route('/delete_recipe/<recipe_id>',methods=['GET', 'POST'])
 def delete_recipe(recipe_id):
-    flash(f'Recipe has been Removed', 'danger')
+    recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    file = recipe["dish_photo"]
+    if file !='':
+        pprint.pprint(file)
+        os.remove((os.path.join('static/receipe-pictures/', file)))
+        flash(f'Recipe has been Removed', 'danger')
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     return redirect(url_for('recipes'))
 
 
-# returns template and sends data to csv file
+# sends data to csv file and returns page with charts
 @app.route('/show_chart')
 def show_chart():
     cursor = mongo.db.recipes.find({}, {'_id': 0,
