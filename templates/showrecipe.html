@@ -27,6 +27,7 @@
           <div class="mb-2"><i class="fas fa-utensils"></i> {{recipe.category_name}}</div>
           <div class="mb-2"><i class="fas fa-user-cog"></i> {{recipe.dish_required_skill}}</div>
           <div class="mb-2"><i class="fas fa-stopwatch"></i> {{recipe.dish_prep_time}} Minutes</div>
+          <div class="mb-2"><i class="fas fa-map"></i> {{recipe.dish_origin_cuisine}}</div>
           <a href={{url_for( 'edit_recipe', recipe_id=recipe._id)}}><button type="button" class="btn btn-sm btn-success">Edit</button></a>
           <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#confirmation_modal">Delete</button>
         </div>
