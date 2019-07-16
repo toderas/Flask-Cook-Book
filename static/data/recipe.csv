@@ -1,14 +1,20 @@
 dish_name,dish_author,dish_views,dish_upvotes,dish_prep_time,dish_required_skill,dish_origin_cuisine,category_name
-Franciacorta Risotto with Pears and Crisped Speck,Another Crackhead Chef,8,52,40,Advanced Beginner,French,Starter
-random,el random,2,23,5,Advanced Beginner,local,Starter
-This Is The One For Sure,This Is Its Update,,,25,Competent,Germany,Main
-This is a Test MAin,Le Chef,1,1,25,Advanced Beginner,spanish,Starter
-Chef's favourite,Chef,,,15,Advanced Beginner,italian,Starter
-some random,el chef,4,56,30,Competent,blank,Dessert
-Testing Update Values,for this ,2,41,121,Competent,spain,Intermediate
-testing update function,testing name,3,,15,Competent,England,Intermediate
-Adding Apritif,afgaegREGRER,3,22,55,Competent,Spain,Aperitif
-Main Course,none,28,69,25,Proficient,Spain,Main
-This is a Test MAin,This Is a Test Dish,,,25,Proficient,Spain,Main
-This is a Test MAin,This Is a Test Dish,,,25,Competent,Spain,Starter
-srath,wshtr,,,12,Competent,weht,Starter
+Chicken & freekeh chopped salad with salsa verde,Rosie Birkett,24,48,15,Advanced Beginner,England,Starter
+Sticky citrus chicken with griddled avocado & beet salad, Cassie Best,18,33,55,Competent,Sweden,Starter
+Chicken fattoush, Miriam Nice,9,25,15,Competent,France,Aperitif
+Chicken satay salad,Sara Buenfeld,4,35,25,Novice,Holland,Aperitif
+" Quinoa, pea & avocado salad",Miriam Nice,8,47,20,Proficient,France,Intermediate
+"Asian chicken, mandarin & cashew salad",Sarah Cook,4,30,25,Competent,England,Intermediate
+Beef Wellington,Gordon Ramsay,6,21,150,Expert,England,Main
+Braised beef with red wine & cranberry,Good Food,5,12,120,Competent,England,Main
+Chinese braised beef with ginger,Good Food,5,13,180,Proficient,England,Main
+Beef with red wine & carrots,Good Food,21,46,180,Advanced Beginner,England,Main
+Strawberry cheesecake in 4 easy steps,Good Food,12,25,65,Competent,England,Dessert
+Salted caramel cheesecake,Barney Desmazery,3,19,40,Novice,France,Dessert
+Baileys cheesecake,Sara Buenfeld,,,60,Competent,Holland,Dessert
+Chicken noodle soup,Mary Cadogan,24,60,40,Advanced Beginner,France,Intermediate
+ Butternut squash soup with chilli & crème fraîche,Good Food,11,26,65,Competent,England,Starter
+Blackberry & lemon fool,Cassie Best,1,,10,Novice,France,Aperitif
+"Salmon, sweet potato & coriander fishcakes with tahini dressing",Sophie Godwin,,,35,Advanced Beginner,England,Starter
+ Lamb with warm potato & olive salad,Flynn McGarry ,,,55,Competent,Sweden,Main
+Rump steak,Esther Clark,7,26,15,Competent,England,Main
