@@ -71,7 +71,7 @@ As a visitor looking to showcase my recipes
 
 # Features Left To Implement
 -user authentication 
-- file update 
+-file update 
 -user restrictions (only the person who uploaded the recipe  will be able to edit or delete it)
 -feedback - only 1 like and/or view per user 
 -prevent likes and views from resetting to 0 when changes are made to the recipe 
