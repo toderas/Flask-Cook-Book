@@ -33,8 +33,8 @@ app = Flask(__name__)
 app.secret_key = "super secret key"
 
 
-app.config["MONGO_DBNAME"] = 'cook-book'
-app.config["MONGO_URI"] = 'mongodb+srv://tode:1Martie1998@myfirstcluster-dxyoc.mongodb.net/cook-book?retryWrites=true'
+app.config["MONGO_DBNAME"] = os.environ.get('dbname')
+app.config["MONGO_URI"] = os.environ.get('db_uri')
 
 
 mongo = PyMongo(app)
