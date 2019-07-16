@@ -11,7 +11,6 @@ from flask import Flask, render_template, redirect, request, url_for, flash, sen
 from flask_pymongo import PyMongo, pymongo
 from bson.objectid import ObjectId
 from flask_paginate import Pagination
-import pprint;
 from forms import *
 plt.style.use('ggplot')
 
@@ -273,12 +272,7 @@ def upvote(recipe_id):
     return redirect(url_for('show_recipe', recipe_id=recipe_id))
 
 
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
-# For Heroku Deployment
-
-#if __name__ == '__main__':
-    #app.run(host=os.environ.get('IP'),
-        #port=int(os.environ.get('PORT')),
-        #debug=True)
+    app.run(host=os.environ.get('IP'),
+        port=int(os.environ.get('PORT')),
+        debug=True)
