@@ -1,33 +1,31 @@
 import os
+import csv
 from io import BytesIO
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-plt.style.use('ggplot')
-import csv
 from collections import OrderedDict
-# imports helpers.py
 from helpers import *
 from flask import Flask, render_template, redirect, request, url_for, flash, send_file, make_response, send_from_directory
 from flask_pymongo import PyMongo, pymongo
 from bson.objectid import ObjectId
 from flask_paginate import Pagination
 import pprint;
-# imports forms.py
 from forms import *
+plt.style.use('ggplot')
 
 
 UPLOAD_FOLDER = '../static/receipe-pictures/'
-ALLOWED_EXTENSIONS = set([ 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 
 app = Flask(__name__)
@@ -49,7 +47,8 @@ mongo = PyMongo(app)
 def recipes():
     page = get_page()
     recipes = mongo.db.recipes.find().sort('dish_upvotes', pymongo.DESCENDING)
-    pagination = Pagination(page=page,per_page=9, total=recipes.count(),record_name='recipes',css_framework='bootstrap4')
+    pagination = Pagination(page=page, per_page=9, total=recipes.count(),
+                            record_name='recipes', css_framework='bootstrap4')
     recipe_list = paginate_list(recipes, page, 9)
     return render_template("recipes.html", recipes=recipe_list, pagination=pagination, title="Recipes")
 
@@ -67,7 +66,8 @@ def aperitif():
     page = get_page()
     recipes = mongo.db.recipes.find({"$and": [{"category_name": 'Aperitif'},
                                     {"category_name": {'$exists': True}}]})
-    pagination = Pagination(page=page,per_page=9, total=recipes.count(),record_name='recipes',css_framework='bootstrap4')
+    pagination = Pagination(page=page, per_page=9, total=recipes.count(),
+                            record_name='recipes', css_framework='bootstrap4')
     recipe_list = paginate_list(recipes, page, 9)
     return render_template("recipes.html", recipes=recipe_list, pagination=pagination, title="Aperitifs")
 
@@ -77,7 +77,8 @@ def starter():
     page = get_page()
     recipes = mongo.db.recipes.find({"$and": [{"category_name": 'Starter'},
                                     {"category_name": {'$exists': True}}]})
-    pagination = Pagination(page=page,per_page=9, total=recipes.count(),record_name='recipes',css_framework='bootstrap4')
+    pagination = Pagination(page=page, per_page=9, total=recipes.count(),
+                            record_name='recipes', css_framework='bootstrap4')
     recipe_list = paginate_list(recipes, page, 9)
     return render_template("recipes.html", recipes=recipe_list, pagination=pagination, title="Starters")
 
@@ -87,7 +88,8 @@ def intermediate():
     page = get_page()
     recipes = mongo.db.recipes.find({"$and": [{"category_name": 'Intermediate'},
                                     {"category_name": {'$exists': True}}]})
-    pagination = Pagination(page=page,per_page=9, total=recipes.count(),record_name='recipes',css_framework='bootstrap4')
+    pagination = Pagination(page=page, per_page=9, total=recipes.count(),
+                            record_name='recipes', css_framework='bootstrap4')
     recipe_list = paginate_list(recipes, page, 9)
     return render_template("recipes.html", recipes=recipe_list, pagination=pagination, title="Intermediate")
 
@@ -97,7 +99,8 @@ def main():
     page = get_page()
     recipes = mongo.db.recipes.find({"$and": [{"category_name": 'Main'},
                                     {"category_name": {'$exists': True}}]})
-    pagination = Pagination(page=page,per_page=9, total=recipes.count(),record_name='recipes',css_framework='bootstrap4')
+    pagination = Pagination(page=page, per_page=9, total=recipes.count(),
+                            record_name='recipes', css_framework='bootstrap4')
     recipe_list = paginate_list(recipes, page, 9)
     return render_template("recipes.html", recipes=recipe_list, pagination=pagination, title="Mains")
 
@@ -107,7 +110,8 @@ def dessert():
     page = get_page()
     recipes = mongo.db.recipes.find({"$and": [{"category_name": 'Dessert'},
                                     {"category_name": {'$exists': True}}]})
-    pagination = Pagination(page=page,per_page=9, total=recipes.count(),record_name='recipes',css_framework='bootstrap4')
+    pagination = Pagination(page=page, per_page=9, total=recipes.count(),
+                            record_name='recipes', css_framework='bootstrap4')
     recipe_list = paginate_list(recipes, page, 9)
     return render_template("recipes.html", recipes=recipe_list, pagination=pagination, title="Dessert")
 
@@ -194,11 +198,11 @@ def edit_recipe(recipe_id):
 
 
 # removes item from database and image from filesistem
-@app.route('/delete_recipe/<recipe_id>',methods=['GET', 'POST'])
+@app.route('/delete_recipe/<recipe_id>', methods=['GET', 'POST'])
 def delete_recipe(recipe_id):
     recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     file = recipe["dish_photo"]
-    if file !='':
+    if file != '':
         os.remove((os.path.join('static/receipe-pictures/', file)))
         flash(f'Recipe has been Removed', 'danger')
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
