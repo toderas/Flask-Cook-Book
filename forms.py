@@ -16,7 +16,7 @@ class AddRecipeForm(FlaskForm):
                                       validators=[DataRequired(), Length(min=2)])
     dish_preparation_steps = StringField('Recommended Steps',
                                       validators=[DataRequired(), Length(min=2)])
-    file = StringField('Filename', validators=[DataRequired()])
+    file = FileField('Filename', validators=[DataRequired()])
                                      
     
     submit = SubmitField('Add Recipe')
@@ -33,8 +33,14 @@ class EditRecipeForm(FlaskForm):
     dish_ingredients = StringField('Ingredients',
                                       validators=[DataRequired(), Length(min=2)])
     dish_preparation_steps = StringField('Recommended Steps',
-                                      validators=[DataRequired(), Length(min=2)])
-    file = FileField('Filename')
+                                      validators=[DataRequired(), Length(min=2)])                                  
+ 
+    category_name = StringField('Category')
+    
+    dish_required_skill = StringField('Difficulty')
+    
+    dish_photo = StringField()
+
    
                                       
     submit = SubmitField('Update Recipe')
